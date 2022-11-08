@@ -13,5 +13,5 @@ post/exam-memo-aws-sapc01.md, 28052aabc2e6544dc870
 post/exam-memo-aws-soac01.md, f7888140da7cf8c6450b
 post/k8s-autoscaling-hpa-ca.md, 320777658bb22df8b406
 post/k8s-autoscaling-keda-prometheus.md, dca37a623986d21cd63f
-post/setting-gitBash-starship.md, 7827ef647b92f9210085
+post/setting-gitBash-starship.md, 7827ef647b92f9210085post/private-test.md, 5d1cd2cb8af0096fe0f5
 post/public-test.md, 630e71eeb7153b8d9249
