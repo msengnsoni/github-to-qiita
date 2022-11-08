@@ -12,6 +12,6 @@ jobs:
         uses: noraworld/github-to-qiita@v1.0.1
         with:
           dir: "post"
-          qiita_access_token: c52b78c950ee714e033e4a0de45742c09cb4bff2
+          qiita_access_token: ${{ secrets.QIITA_ACCESS_TOKEN_FROM_MY_WINDOWS }}
           mapping_filepath: "mapping.txt"
           strict: true
