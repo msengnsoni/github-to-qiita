@@ -15,3 +15,4 @@ post/k8s-autoscaling-hpa-ca.md, 320777658bb22df8b406
 post/k8s-autoscaling-keda-prometheus.md, dca37a623986d21cd63f
 post/setting-gitBash-starship.md, 7827ef647b92f9210085
 post/public-test.md, 630e71eeb7153b8d9249
+post/test-mapping.md, 0c8ebb3de6dffad8f073
