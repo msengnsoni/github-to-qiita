@@ -3,12 +3,6 @@ title: "【対策メモ】AWS認定DevOpsエンジニア-プロフェッショ�
 topics: ["AWS", "AWS認定試験", "資格"]
 published: false
 ---
-<!--
-title:   【対策メモ】AWS認定DevOpsエンジニア-プロフェッショナル試験対策メモ
-tags:    AWS,AWS認定試験,資格
-id:      5d614fb73caf486dba2f
-private: true
--->
 
 #  はじめに
 本記事は、AWS-DOP試験の対策をしている上で覚えておくべきだと感じたことをメモとして残しておくものです。

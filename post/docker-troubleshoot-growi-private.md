@@ -1,9 +1,9 @@
-<!--
-title:   growi障害対応報告
-tags:    Growi,トラブルシューティング
-id:      9076f30867ddc2f4eaf9
-private: true
--->
+---
+title: "growi障害対応報告"
+topics: ["Growi", "トラブルシューティング"]
+published: false
+---
+
 # はじめに
 限定共有記事なので他社の人間には見られないはずですが、
 弊社のセキュリティ/コンプライアンス上問題がある場合本記事は削除します。
