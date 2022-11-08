@@ -1,9 +1,9 @@
-<!--
-title:   【対策メモ】AWS認定SysOpsアドミニストレーター-アソシエイト試験対策メモ
-tags:    AWS,AWS認定SysOpsアドミニストレーター,AWS認定試験
-id:      f7888140da7cf8c6450b
-private: false
--->
+---
+title: "【対策メモ】AWS認定SysOpsアドミニストレーター-アソシエイト試験対策メモ"
+topics: ["AWS", "AWS認定試験", "初心者", "資格"]
+published: true
+---
+
 # はじめに
 本記事は、AWS-SOA試験の対策をしている上で覚えておくべきだと感じたことを
 メモとして残しておくものです。

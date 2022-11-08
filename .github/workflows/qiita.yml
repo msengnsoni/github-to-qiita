@@ -1,0 +1,17 @@
+name: "GitHub to Qiita"
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  qiita:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Publish to Qiita"
+        uses: noraworld/github-to-qiita@v1.0.0
+        with:
+          dir: "post"
+          qiita_access_token: c52b78c950ee714e033e4a0de45742c09cb4bff2
+          mapping_filepath: "mapping.txt"
+          strict: true

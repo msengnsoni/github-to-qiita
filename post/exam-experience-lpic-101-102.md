@@ -1,9 +1,9 @@
-<!--
-title:   【合格体験記】LPIC-1(Level1) ver5.0
-tags:    Linux,lpic,初心者
-id:      6d4e6dc60ee735266a8b
-private: false
--->
+---
+title: "【合格体験記】LPIC-1(Level1) ver5.0"
+topics: ["Linux", "lpic", "初心者", "資格"]
+published: true
+---
+
 # 本記事の概要
 LPIC-1(Level1)version5.0 を受験し取得したので勉強方法を備忘録として投稿します。
 LPICを受けようと思っている方や、現在勉強している方がこの記事を参考の一つにしていただけたら幸いです。

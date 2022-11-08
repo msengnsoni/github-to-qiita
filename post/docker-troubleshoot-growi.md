@@ -1,9 +1,9 @@
-<!--
-title:   【docker】EC2の/var/lib/docker/overlay2配下がいっぱいでコンテナが起動できなくなった
-tags:    Docker,Growi,docker-compose,トラブルシューティング
-id:      940610980fb89cb97eb5
-private: false
--->
+---
+title: "【docker】EC2の/var/lib/docker/overlay2配下がいっぱいでコンテナが起動できなくなった"
+topics: ["Docker", "Growi", "docker-compose", "トラブルシューティング"]
+published: true
+---
+
 # はじめに
 本記事は、自社内で使用しているgrowiのwikiが起動しなくなったため、
 実施した障害対応の経緯を記載したものです。

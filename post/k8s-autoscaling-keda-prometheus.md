@@ -1,9 +1,9 @@
-<!--
-title:   【k8s】EKS環境でKEDA + Prometheusを試してみた
-tags:    keda,kubernetes,prometheus
-id:      dca37a623986d21cd63f
-private: true
--->
+---
+title: "【k8s】EKS環境でKEDA + Prometheusを試してみた"
+topics: ["keda", "kubernetes", "prometheus"]
+published: false
+---
+
 # 環境構成図
 
 今回構成した図は以下になります。なお、Prometheusの詳細なコンポーネントは省略しています。

@@ -1,9 +1,9 @@
-<!--
-title:   【合格体験記】AWS認定SysOpsアドミニストレーター–アソシエイト(SOA-C01)
-tags:    AWS,AWS認定試験,初心者
-id:      da6faebbf934e11bc643
-private: false
--->
+---
+title: "【合格体験記】AWS認定SysOpsアドミニストレーター–アソシエイト(SOA-C01)"
+topics: ["AWS", "AWS認定試験", "初心者", "資格"]
+published: true
+---
+
 # 本記事の概要
 AWS認定SysOpsアドミニストレーター–アソシエイト(SOA-C01) を取得したので勉強方法を備忘録として投稿します。
 AWS-SOAを受けようと思っている方や、現在勉強している方がこの記事を参考の一つにしていただけたら幸いです。

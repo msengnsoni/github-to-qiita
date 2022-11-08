@@ -1,9 +1,9 @@
-<!--
-title:   【合格体験記】LPIC-3(Level3) 304 (Virtualization and High Availability) ver2.0
-tags:    Linux,lpic,資格
-id:      909ac369e87d5bc0a134
-private: false
--->
+---
+title: "【合格体験記】LPIC-3(Level3) 304 (Virtualization and High Availability) ver2.0"
+topics: ["Linux", "lpic", "初心者", "資格"]
+published: true
+---
+
 # 本記事の概要
 LLPIC-3 304 (Virtualization and High Availability) を受験し取得したので
 勉強方法を備忘録として投稿します。

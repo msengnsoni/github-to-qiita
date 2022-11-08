@@ -1,9 +1,9 @@
-<!--
-title:   eksを利用したk8sのオートスケーリングをやってみた(pod、node)
-tags:    eks,kubernetes
-id:      320777658bb22df8b406
-private: true
--->
+---
+title: "eksを利用したk8sのオートスケーリングをやってみた(pod、node)"
+topics: ["eks", "kubernetes"]
+published: false
+---
+
 # Podのオートスケール
 * Horizontal Pod Autoscaler (HPA)
   * podの水平スケーリングをCPU使用率に基づいて自動で実行する
