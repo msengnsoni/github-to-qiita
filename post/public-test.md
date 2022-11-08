@@ -1,6 +1,6 @@
 ---
 title: "public test"
-topics: []
+topics: ["test"]
 published: true
 ---
 
