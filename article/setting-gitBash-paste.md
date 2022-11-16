@@ -1,5 +1,5 @@
 ---
-title: "Git for Windows(Git Bash)でコピペすると「01~」が末尾に付いてくる場合の対処法"
+title: "Git for Windows(Git Bash)にコピペした際「01~」が末尾に付いてくる場合の対処法"
 topics: ["Bash", "Windows", "gitbash"]
 published: true
 ---
