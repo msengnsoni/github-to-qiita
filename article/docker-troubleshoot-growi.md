@@ -1,5 +1,5 @@
 ---
-title: "【docker】EC2の/var/lib/docker/overlay2配下がいっぱいでコンテナが起動できなくなった"
+title: "【docker】EC2の/var/lib/docker/overlay2配下がいっぱいでコンテナが起動できなくなった際の障害対応備忘録"
 topics: ["Docker", "Growi", "docker-compose", "トラブルシューティング"]
 published: true
 ---
