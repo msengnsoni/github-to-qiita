@@ -9,10 +9,11 @@ published: false
 今回構成した図は以下になります。なお、Prometheusの詳細なコンポーネントは省略しています。
 ![KEDA構成.jpg](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/554835/e3fd2b0d-29d7-a1eb-47d5-917f858bccc3.jpeg)
 
-
 # 環境準備
+
 ## AWS認証情報を定義
-```
+
+```bash
 AWS_ACCOUNT=************
 AWS_DEFAULT_REGION=ap-northeast-1
 AWS_ACCESS_KEY_ID=************
@@ -26,30 +27,37 @@ source ~/.bash_profile
 ```
 
 ## kubectlのインストール
+
+```bash
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.22.0/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+mkdir -p $HOME/bin && mv ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
 ```
-$ curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.22.0/bin/linux/amd64/kubectl
-$ chmod +x ./kubectl
-$ mkdir -p $HOME/bin && mv ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
-```
+
 ## ekctlのインストール
-```
-$ curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/0.61.0/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
-$ sudo mv /tmp/eksctl /usr/local/bin
+
+```bash
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/0.61.0/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+sudo mv /tmp/eksctl /usr/local/bin
 ```
 
 ## helmのインストール
+
+```bash
+mkdir ~/environment/helm
+cd ~/environment/helm/
+curl -L https://git.io/get_helm.sh | bash -s -- --version v3.8.2
 ```
-$ mkdir ~/environment/helm
-$ cd ~/environment/helm/
-$ curl -L https://git.io/get_helm.sh | bash -s -- --version v3.8.2
-```
+
 ## kubernetes用リポジトリの追加
-```
-$ helm repo add stable https://charts.helm.sh/stable
-$ helm repo update
+
+```bash
+helm repo add stable https://charts.helm.sh/stable
+helm repo update
 ```
 
 ## クラスタ定義ファイルの作成
+
 <details>
 <summary>cluster-config.yaml</summary><div>
 
@@ -73,14 +81,17 @@ managedNodeGroups:
     minSize: 1
     maxSize: 3
 ```
+
 </div></details>
 
 ## クラスタを作成
-```
-$ eksctl create cluster -f cluster-config.yaml
+
+```bash
+eksctl create cluster -f cluster-config.yaml
 ```
 
 # nginxとnginx-exporterのデプロイ
+
 ## nginxのmanifestを定義(ConfigMap,Service,deployment)
 
 <details>
@@ -184,39 +195,49 @@ spec:
           - key: nginx.conf
             path: nginx.conf
 ```
+
 </div></details>
 
-### 躓きポイント
+### 躓きポイント1
+
 * Kind: Deploymentのspec.template.spec.containers.name: nginx-exporter部分(サイドカー)の記述
-    * nginx-exporterを構築するために、exporter-podをapp-podのサイドカーとして登録する
-    * argsの記述は、EKSでの構築だとしてもlocalhostのパスで動作を確認
+  * nginx-exporterを構築するために、exporter-podをapp-podのサイドカーとして登録する
+  * argsの記述は、EKSでの構築だとしてもlocalhostのパスで動作を確認
 * Kind: ConfigMapの記述
-    * nginx-exporterを構築するために、nginx.confの記載を変更する必要があるため、manifest上でnginx.confを定義しConfigMapでnginx-pod内のnginx.confを上書きする
+  * nginx-exporterを構築するために、nginx.confの記載を変更する必要があるため、manifest上でnginx.confを定義しConfigMapでnginx-pod内のnginx.confを上書きする
 
 ## nginxをデプロイ
-```
-$ kubectl apply -f nginx-manifest.yaml
+
+```bash
+kubectl apply -f nginx-manifest.yaml
 ```
 
 # Prometheusのデプロイ
+
 ## Prometheus用のnamespaceを作成
-```
-$ kubectl create ns prometheus
+
+```bash
+kubectl create ns prometheus
 ```
 
 ## Prometheusのインストール
+
 * 今回はprometheus-operatorを採用
-```
-$ helm install prometheus stable/prometheus-operator --namespace prometheus
+
+```bash
+helm install prometheus stable/prometheus-operator --namespace prometheus
 ```
 
 ## Prometheusのダッシュボードに接続確認 (Cloud9で構築した場合)
+
+```bash
+kubectl port-forward service/prometheus-prometheus-oper-prometheus 8080:9090 --address 0.0.0.0 -n prometheus
 ```
-$ kubectl port-forward service/prometheus-prometheus-oper-prometheus 8080:9090 --address 0.0.0.0 -n prometheus
-```
+
 * Tools > Preview > Preview Running Application でブラウザを開く
 
 ## ServiceMonitorリソースの定義
+
 <details>
 <summary>prometheus-servicemonitor.yaml</summary><div>
 
@@ -239,6 +260,7 @@ spec:
     matchLabels:
       app: nginx
 ```
+
 </div></details>
 
 :::note info
@@ -246,35 +268,42 @@ ServiceMonitorの記述方法は、`kubectl explain servicemonitor.spec`で確�
 :::
 
 ## ServiceMonitorリソースのデプロイ
-```
-$ kubectl apply -f prometheus-servicemonitor.yaml -n prometheus
+
+```bash
+kubectl apply -f prometheus-servicemonitor.yaml -n prometheus
 ```
 
 * Prometheusのダッシュボードから、nginx-podがTargetsに含まれていることを確認
-    * この手順通りに実施した場合、***prometheus/nginx-servicemonitor/0**という名前で表示される
+  * この手順通りに実施した場合、***prometheus/nginx-servicemonitor/0**という名前で表示される
 
 # KEDAのデプロイ
+
 ## KEDAをグラフリポジトリに追加
-```
+
+```bash
 helm repo add kedacore https://kedacore.github.io/charts
 ```
 
 ## リポジトリをアップデート
-```
+
+```bash
 helm repo update
 ```
 
 ## KEDA用のnamespaceを作成
-```
+
+```bash
 kubectl create namespace keda
 ```
 
 ## KEDAをインストール
-```
+
+```bash
 helm install keda kedacore/keda --namespace keda
 ```
 
 ## ScaledObjectリソースの定義
+
 <details>
 <summary>keda-scaledobject.yaml</summary><div>
 
@@ -301,48 +330,48 @@ spec:
        sum(nginx_connections_active{job="nginx-svc"})
      threshold: "2"
 ```
+
 </div></details>
 
 :::note info
 分かりやすくするため、nginxサーバへのconnentionが`2`になったらスケーリングする設定にしています。
 :::
 
+### 躓きポイント2
 
-### 躓きポイント
 * spec.triggers.metadata.serverAddressの記述
-    * prometheusのserviceをk8sのDNSで記述する
-        * DNS名のルールは、`my-svc.my-namespace.svc.cluster.local`
-    * prometheus-operatorでは、prometheus-operatedサービスが9090ポートで待ち受けている
+  * prometheusのserviceをk8sのDNSで記述する
+    * DNS名のルールは、`my-svc.my-namespace.svc.cluster.local`
+  * prometheus-operatorでは、prometheus-operatedサービスが9090ポートで待ち受けている
 * spec.triggers.metadata.queryの記述
-    * スケーリングのトリガーにしたいクエリをPromQL表記で記述する
+  * スケーリングのトリガーにしたいクエリをPromQL表記で記述する
 * spec.triggers.metadata.thresholdの記述
-    * トリガーとなるspec.triggers.metadata.queryで指定したクエリの閾値を指定する
+  * トリガーとなるspec.triggers.metadata.queryで指定したクエリの閾値を指定する
 * spec.scaleTargetRef.nameの記述
-    * スケール対象のdeploymentの名前を記述する
-        * ScaledObjectリソースをデプロイするnamespaceと同じnamespace内のdeploymentを指定する必要がある
+  * スケール対象のdeploymentの名前を記述する
+    * ScaledObjectリソースをデプロイするnamespaceと同じnamespace内のdeploymentを指定する必要がある
 
 ## ScaledObjectリソースのデプロイ
+
+```bash
+kubectl create -f keda-scaledobject.yaml
 ```
-$ kubectl create -f keda-scaledobject.yaml
-```
-
-
-
 
 ## HPAリソースの確認
-```
-$ kubectl get hpa
+
+```bash
+kubectl get hpa
 ```
 
 :::note info
 ScaledObjectリソースが正常にデプロイされた場合、自動的にHPAリソースが作成される
 :::
 
-
-
 # スケールアウト動作確認
+
 * nginxのブラウザで更新連打し一時的にconnectionを増加させます
-```
+
+```bash
 $ kubectl describe hpa
 Name:                                                                    keda-hpa-nginx-scale
 Namespace:                                                               default
@@ -370,7 +399,8 @@ Events:
   ----    ------             ----  ----                       -------
   Normal  SuccessfulRescale  9s    horizontal-pod-autoscaler  New size: 2; reason: external metric s0-prometheus-nginx_connections_active_keda(&LabelSelector{MatchLabels:map[string]string{scaledobject.keda.sh/name: nginx-scale,},MatchExpressions:[]LabelSelectorRequirement{},}) above target
 ```
-```
+
+```bash
 $ kubectl get pod
 NAME                            READY   STATUS    RESTARTS   AGE
 nginx-deploy-69dfb9f967-2b7wp   2/2     Running   0          22s
@@ -378,7 +408,8 @@ nginx-deploy-69dfb9f967-f5f55   2/2     Running   0          4h51m
 ```
 
 # スケールダウン動作確認
-```
+
+```bash
 $ kubectl describe hpa
 Name:                                                                    keda-hpa-nginx-scale
 Namespace:                                                               default
@@ -408,7 +439,8 @@ Events:
   Normal  SuccessfulRescale  49m   horizontal-pod-autoscaler  New size: 1; reason: All metrics below target
 m_satake:~/environment/download $
 ```
-```
+
+```bash
 $ kubectl get pod
 NAME                            READY   STATUS    RESTARTS   AGE
 nginx-deploy-69dfb9f967-f5f55   2/2     Running   0          5h47m

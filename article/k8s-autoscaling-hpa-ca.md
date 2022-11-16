@@ -5,22 +5,27 @@ published: false
 ---
 
 # Podのオートスケール
-* Horizontal Pod Autoscaler (HPA)
-  * podの水平スケーリングをCPU使用率に基づいて自動で実行する
+
+- Horizontal Pod Autoscaler (HPA)
+  - podの水平スケーリングをCPU使用率に基づいて自動で実行する
 
 kubectlのインストール
+
+```bash
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.22.0/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+mkdir -p $HOME/bin && mv ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
 ```
-$ curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.22.0/bin/linux/amd64/kubectl
-$ chmod +x ./kubectl
-$ mkdir -p $HOME/bin && mv ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
-```
+
 ekctlのインストール
-```
-$ curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/0.61.0/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
-$ sudo mv /tmp/eksctl /usr/local/bin
+
+```bash
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/0.61.0/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+sudo mv /tmp/eksctl /usr/local/bin
 ```
 
 クラスタ定義ファイルの作成
+
 ```bash:cluster-config.yaml
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
@@ -42,49 +47,55 @@ managedNodeGroups:
 ```
 
 クラスタを作成
-```
-$ eksctl create cluster -f cluster-config.yaml
+
+```bash
+eksctl create cluster -f cluster-config.yaml
 ```
 
 サンプルappのデプロイ
-```
+
+```bash
 $ kubectl apply -f https://k8s.io/examples/application/php-apache.yaml
 deployment.apps/php-apache created
 service/php-apache created
 ```
 
 HPAのデプロイ
-```
+
+```bash
 kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
 ```
 
-
 metrics-serverの導入
 このままget hpaしてもTARGETSがUnknownなのでmetrics-serverを導入
-```
+
+```bash
 $ kubectl get hpa
 NAME         REFERENCE               TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
 php-apache   Deployment/php-apache   <unknown>/50%   1         10        1          4h34m
 ```
 
 metrics-serverの導入
-```
-$ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+```bash
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 ```
 
 :::note info
-**memo** metrics-serverの導入により**kubectl top**が使用可能に
+--memo-- metrics-serverの導入により--kubectl top--が使用可能に
 :::
 
 TARGETSが0%表示になっていることを確認
-```
+
+```bash
 $ kubectl get hpa
 NAME         REFERENCE               TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
 php-apache   Deployment/php-apache   0%/50%    1         10        1          4h36m
 ```
 
 別ターミナルで実行し負荷をかける
-```
+
+```bash
 $ kubectl run -i \
     --tty load-generator \
     --rm --image=busybox \
@@ -93,13 +104,16 @@ $ kubectl run -i \
 ```
 
 TARGETSに負荷がかかっていることを確認
-```
+
+```bash
 $ kubectl get hpa
 NAME         REFERENCE               TARGETS    MINPODS   MAXPODS   REPLICAS   AGE
 php-apache   Deployment/php-apache   250%/50%   1         10        6          6h37m
 ```
+
 podが水平スケーリングされていることを確認
-```
+
+```bash
 $ kubectl get pod
 NAME                          READY   STATUS    RESTARTS   AGE
 load-generator                1/1     Running   0          2m4s
@@ -112,13 +126,16 @@ php-apache-779cd44bdc-x4ptz   1/1     Running   0          7h49m
 ```
 
 負荷を停止(CTRL+C)し、TARGETSを確認
-```
+
+```bash
 $ kubectl get hpa
 NAME         REFERENCE               TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
 php-apache   Deployment/php-apache   0%/50%    1         10        1          6h40m
 ```
+
 podがスケールインされていることを確認(数分かかりました)
-```
+
+```bash
 $ kubectl get pod
 NAME                          READY   STATUS    RESTARTS   AGE
 load-generator                0/1     Error     0          8m26s
@@ -126,18 +143,22 @@ php-apache-779cd44bdc-x4ptz   1/1     Running   0          7h55m
 ```
 
 phpリソースの削除
-```
-$ kubectl delete deployment.apps/php-apache service/php-apache horizontalpodautoscaler.autoscaling/php-apache
+
+```bash
+kubectl delete deployment.apps/php-apache service/php-apache horizontalpodautoscaler.autoscaling/php-apache
 ```
 
 クラスタの削除
-```
-$ cd ~/environment
-$ eksctl delete cluster -f cluster-config.yaml --wait
+
+```bash
+cd ~/environment
+eksctl delete cluster -f cluster-config.yaml --wait
 ```
 
 ## マニフェストファイルでのHPAリソース作成
+
 サンプルマニフェストファイル
+
 ```bash:sample-hpa.json
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
@@ -165,20 +186,20 @@ spec:
           value: 20
           periodSeconds: 30
 `
-* spec配下がオートスケール設定
-* maxReplicas = 最大レプリカ数
-* minReplicas = 最小レプリカ数
-* scaleTargetRefでオートスケール対象のリソースを指定
-* metricsで閾値を指定
-  * type : Resource = Podのリソース(CPU使用率)を対象にする
-  * 他のカスタムメトリクスは[こちら](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#configurable-scaling-behavior)を参照
-* behaviorでメトリクス収集間隔やスケール動作を指定
-  * 詳細は[こちら](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#configurable-scaling-behavior)を参照
+- spec配下がオートスケール設定
+- maxReplicas = 最大レプリカ数
+- minReplicas = 最小レプリカ数
+- scaleTargetRefでオートスケール対象のリソースを指定
+- metricsで閾値を指定
+  - type : Resource = Podのリソース(CPU使用率)を対象にする
+  - 他のカスタムメトリクスは[こちら](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#configurable-scaling-behavior)を参照
+- behaviorでメトリクス収集間隔やスケール動作を指定
+  - 詳細は[こちら](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#configurable-scaling-behavior)を参照
 
 
 # Nodeのオートスケール
-* Cluster Autoscaler (CA)
-  * nodeの水平スケーリングをnodeがpendingになったことをトリガーに実行する
+- Cluster Autoscaler (CA)
+  - nodeの水平スケーリングをnodeがpendingになったことをトリガーに実行する
 
 クラスタ定義ファイルの作成
 `bash:cluster-config.yaml
@@ -202,19 +223,22 @@ managedNodeGroups:
 ```
 
 クラスタを作成
-```
-$ eksctl create cluster -f cluster-config.yaml
+
+```bash
+eksctl create cluster -f cluster-config.yaml
 ```
 
 ASG更新
-```
+
+```bash
 $ aws autoscaling \
     describe-auto-scaling-groups \
     --query "AutoScalingGroups[? Tags[? (Key=='eks:cluster-name') && Value=='eksworkshop-eksctl']].[AutoScalingGroupName, MinSize, MaxSize,DesiredCapacity]" \
     --output table
 
 ```
-```
+
+```bash
 -----------------------------------------------------------------------------------
 |                            DescribeAutoScalingGroups                            |
 +------------------------------------------------------------------+----+----+----+
@@ -222,7 +246,7 @@ $ aws autoscaling \
 +------------------------------------------------------------------+----+----+----+
 ```
 
-```
+```bash
 # ASGの名前を取得
 $ export ASG_NAME=$(aws autoscaling describe-auto-scaling-groups --query "AutoScalingGroups[? Tags[? (Key=='eks:cluster-name') && Value=='eksworkshop-eksctl']].AutoScalingGroupName" --output text)
 
@@ -240,7 +264,8 @@ $ aws autoscaling \
     --query "AutoScalingGroups[? Tags[? (Key=='eks:cluster-name') && Value=='eksworkshop-eksctl']].[AutoScalingGroupName, MinSize, MaxSize,DesiredCapacity]" \
     --output table
 ```
-```
+
+```bash
 -----------------------------------------------------------------------------------
 |                            DescribeAutoScalingGroups                            |
 +------------------------------------------------------------------+----+----+----+
@@ -249,14 +274,16 @@ $ aws autoscaling \
 ```
 
 サービスアカウントを有効化
-```
+
+```bash
 $ eksctl utils associate-iam-oidc-provider \
     --cluster eksworkshop-eksctl \
     --approve
 ```
 
 Policyの作成
-```
+
+```bash
 $ mkdir ~/environment/cluster-autoscaler
 
 $ at <<EoF > ~/environment/cluster-autoscaler/k8s-asg-policy.json
@@ -273,7 +300,7 @@ $ at <<EoF > ~/environment/cluster-autoscaler/k8s-asg-policy.json
                 "autoscaling:TerminateInstanceInAutoScalingGroup",
                 "ec2:DescribeLaunchTemplateVersions"
             ],
-            "Resource": "*",
+            "Resource": "-",
             "Effect": "Allow"
         }
     ]
@@ -287,7 +314,7 @@ $ aws iam create-policy   \
 
 kube-systemネームスペースにサービスアカウント(IAM role)を作成
 
-```
+```bash
 $ eksctl create iamserviceaccount \
     --name cluster-autoscaler \
     --namespace kube-system \
@@ -296,11 +323,14 @@ $ eksctl create iamserviceaccount \
     --approve \
     --override-existing-serviceaccounts
 ```
+
 サービスアカウントを確認
+
+```bash
+kubectl -n kube-system describe sa cluster-autoscaler
 ```
-$ kubectl -n kube-system describe sa cluster-autoscaler
-```
-```
+
+```bash
 Name:                cluster-autoscaler
 Namespace:           kube-system
 Labels:              app.kubernetes.io/managed-by=eksctl
@@ -311,7 +341,8 @@ Tokens:              cluster-autoscaler-token-7cknj
 ```
 
 CAのデプロイ
-```
+
+```bash
  $ kubectl apply -f https://www.eksworkshop.com/beginner/080_scaling/deploy_ca.files/cluster-autoscaler-autodiscover.yaml
 clusterrole.rbac.authorization.k8s.io/cluster-autoscaler created
 role.rbac.authorization.k8s.io/cluster-autoscaler created
@@ -321,7 +352,8 @@ deployment.apps/cluster-autoscaler created
 ```
 
 CA によって独自のポッドが実行されているノードを削除できないよう設定を追加
-```
+
+```bash
 $ kubectl -n kube-system \
 >     annotate deployment.apps/cluster-autoscaler \
 >     cluster-autoscaler.kubernetes.io/safe-to-evict="false"
@@ -329,10 +361,11 @@ deployment.apps/cluster-autoscaler annotated
 ```
 
 autoscaler imageをアップデート
-```
+
+```bash
 #EKSバージョンで利用可能な最新のドッカーイメージを取得する必要があります
-export K8S_VERSION=$(kubectl version --short | grep 'Server Version:' | sed 's/[^0-9.]*\([0-9.]*\).*/\1/' | cut -d. -f1,2)
-export AUTOSCALER_VERSION=$(curl -s "https://api.github.com/repos/kubernetes/autoscaler/releases" | grep '"tag_name":' | sed -s 's/.*-\([0-9][0-9\.]*\).*/\1/' | grep -m1 ${K8S_VERSION})
+export K8S_VERSION=$(kubectl version --short | grep 'Server Version:' | sed 's/[^0-9.]-\([0-9.]-\).-/\1/' | cut -d. -f1,2)
+export AUTOSCALER_VERSION=$(curl -s "https://api.github.com/repos/kubernetes/autoscaler/releases" | grep '"tag_name":' | sed -s 's/.--\([0-9][0-9\.]-\).-/\1/' | grep -m1 ${K8S_VERSION})
 
 $ kubectl -n kube-system \
 >     set image deployment.apps/cluster-autoscaler \
@@ -341,12 +374,14 @@ deployment.apps/cluster-autoscaler image updated
 ```
 
 cluster-autoscalerのログが見れることを確認
-```
+
+```bash
 kubectl -n kube-system logs -f deployment/cluster-autoscaler
 ```
 
 サンプルnginxアプリケーションをデプロイ
-```
+
+```bash
 cat <<EoF> ~/environment/cluster-autoscaler/nginx.yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -375,22 +410,25 @@ spec:
             memory: 512Mi
 EoF
 ```
+
 :::note info
 100m = 0.1コア、100Mi = 100MB
 :::
-```
+
+```bash
 $ kubectl apply -f ~/environment/cluster-autoscaler/nginx.yaml
 deployment.apps/nginx-to-scaleout created
 ```
 
-```
+```bash
 $ kubectl get deployment/nginx-to-scaleout
 NAME                READY   UP-TO-DATE   AVAILABLE   AGE
 nginx-to-scaleout   1/1     1            1           3m4s
 ```
 
 (スケールアウト実行前のノード状況)
-```
+
+```bash
 $ kubectl get nodes
 NAME                                                STATUS   ROLES    AGE     VERSION
 ip-192-168-16-99.ap-northeast-1.compute.internal    Ready    <none>   4h57m   v1.21.2-13+d2965f0db10712
@@ -399,12 +437,13 @@ ip-192-168-72-126.ap-northeast-1.compute.internal   Ready    <none>   4h57m   v1
 ```
 
 スケールアウト実行
-```
+
+```bash
 $ kubectl scale --replicas=10 deployment/nginx-to-scaleout
 deployment.apps/nginx-to-scaleout scaled
 ```
 
-```
+```bash
 $ kubectl get pods -l app=nginx -o wide --watch
 NAME                                 READY   STATUS              RESTARTS   AGE   IP               NODE                                                NOMINATED NODE   READINESS GATES
 nginx-to-scaleout-6fcd49fb84-4h7zg   1/1     Running             0          17s   192.168.51.137   ip-192-168-63-234.ap-northeast-1.compute.internal   <none>           <none>
@@ -423,7 +462,8 @@ nginx-to-scaleout-6fcd49fb84-vfblw   1/1     Running             0          21s 
 ```
 
 nodeが追加されていることを確認
-```
+
+```bash
 $ kubectl get nodes
 NAME                                                STATUS   ROLES    AGE     VERSION
 ip-192-168-16-99.ap-northeast-1.compute.internal    Ready    <none>   5h26m   v1.21.2-13+d2965f0db10712
@@ -435,13 +475,15 @@ ip-192-168-87-159.ap-northeast-1.compute.internal   Ready    <none>   119s    v1
 ## スケールインの調査
 
 replicasetを10→1に変更してみる
-```
+
+```bash
 $ kubectl scale --replicas=1 deployment/nginx-to-scaleout
 deployment.apps/nginx-to-scaleout scaled
 ```
 
 podの状態を確認
-```
+
+```bash
 $ kubectl get pods -l app=nginx -o wide --watch
 NAME                                 READY   STATUS        RESTARTS   AGE    IP               NODE                                                NOMINATED NODE   READINESS GATES
 nginx-to-scaleout-6fcd49fb84-2frlg   0/1     Terminating   0          9m5s   192.168.38.131   ip-192-168-63-234.ap-northeast-1.compute.internal   <none>           <none>
@@ -466,7 +508,8 @@ nginx-to-scaleout-6fcd49fb84-xm6pw   0/1     Terminating   0          9m8s   192
 ```
 
 リソース供給過多のように思えるがスケールインされない様子...
-```
+
+```bash
 $ kubectl get nodes
 NAME                                                STATUS   ROLES    AGE     VERSION
 ip-192-168-16-99.ap-northeast-1.compute.internal    Ready    <none>   5h41m   v1.21.2-13+d2965f0db10712
@@ -476,7 +519,8 @@ ip-192-168-87-159.ap-northeast-1.compute.internal   Ready    <none>   16m     v1
 ```
 
 数分後にもう一度確認するとスケールインが実行されていた
-```
+
+```bash
 $ kubectl get nodes
 NAME                                                STATUS   ROLES    AGE     VERSION
 ip-192-168-16-99.ap-northeast-1.compute.internal    Ready    <none>   5h45m   v1.21.2-13+d2965f0db10712
@@ -485,7 +529,8 @@ ip-192-168-87-159.ap-northeast-1.compute.internal   Ready    <none>   20m     v1
 ```
 
 ASGの設定を変更してみる
-```
+
+```bash
 aws autoscaling \
     update-auto-scaling-group \
     --auto-scaling-group-name ${ASG_NAME} \
@@ -493,7 +538,8 @@ aws autoscaling \
     --desired-capacity 1 \
     --max-size 3
 ```
-```
+
+```bash
  $ aws autoscaling \
 >     describe-auto-scaling-groups \
 >     --query "AutoScalingGroups[? Tags[? (Key=='eks:cluster-name') && Value=='eksworkshop-eksctl']].[AutoScalingGroupName, MinSize, MaxSize,DesiredCapacity]" \
@@ -506,39 +552,41 @@ aws autoscaling \
 ```
 
 期待通りnodeが1つに
-```
+
+```bash
 $ kubectl get nodes
 NAME                                                STATUS                     ROLES    AGE     VERSION
 ip-192-168-16-99.ap-northeast-1.compute.internal    Ready,SchedulingDisabled   <none>   5h59m   v1.21.2-13+d2965f0db10712
 ip-192-168-63-234.ap-northeast-1.compute.internal   Ready,SchedulingDisabled   <none>   5h59m   v1.21.2-13+d2965f0db10712
 ip-192-168-87-159.ap-northeast-1.compute.internal   Ready                      <none>   34m     v1.21.2-13+d2965f0db10712
 ```
-```
+
+```bash
 $ kubectl get nodes
 NAME                                                STATUS   ROLES    AGE   VERSION
 ip-192-168-87-159.ap-northeast-1.compute.internal   Ready    <none>   37m   v1.21.2-13+d2965f0db10712
 ```
 
-* スケールインの対象外になる条件について
-  * [CAのFAQ](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-types-of-pods-can-prevent-ca-from-removing-a-node)に記載あり
-    * 対象Nodeに載っているPodがPodDisruptionBudget(以下PDB)によってEvictされることを制限されている
-    * kube-system namespace配下のPodが存在している、かつ
-      * そのPodはデフォルトで起動しないPodである
-      * そのPodにPDBが設定されていない、またはPDBの制限が厳しすぎる
-    * DeploymentやStatefulSetなどのController Objectの管理外のPodが存在している
-    * localStorageを持つPodが存在している
-    * ソース不足などでPodがEvictできないとき
-    * 以下のアノテーション付与されているPodが存在している
-      * "cluster-autoscaler.kubernetes.io/safe-to-evict": "false"
+- スケールインの対象外になる条件について
+  - [CAのFAQ](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-types-of-pods-can-prevent-ca-from-removing-a-node)に記載あり
+    - 対象Nodeに載っているPodがPodDisruptionBudget(以下PDB)によってEvictされることを制限されている
+    - kube-system namespace配下のPodが存在している、かつ
+      - そのPodはデフォルトで起動しないPodである
+      - そのPodにPDBが設定されていない、またはPDBの制限が厳しすぎる
+    - DeploymentやStatefulSetなどのController Objectの管理外のPodが存在している
+    - localStorageを持つPodが存在している
+    - ソース不足などでPodがEvictできないとき
+    - 以下のアノテーション付与されているPodが存在している
+      - "cluster-autoscaler.kubernetes.io/safe-to-evict": "false"
 
 # クリーンアップ
 
-```
+```bash
 $ kubectl delete -f ~/environment/cluster-autoscaler/nginx.yaml
 deployment.apps "nginx-to-scaleout" deleted
 ```
 
-```
+```bash
 $ kubectl delete -f https://www.eksworkshop.com/beginner/080_scaling/deploy_ca.files/cluster-autoscaler-autodiscover.yaml
 clusterrole.rbac.authorization.k8s.io "cluster-autoscaler" deleted
 role.rbac.authorization.k8s.io "cluster-autoscaler" deleted
@@ -546,7 +594,8 @@ clusterrolebinding.rbac.authorization.k8s.io "cluster-autoscaler" deleted
 rolebinding.rbac.authorization.k8s.io "cluster-autoscaler" deleted
 deployment.apps "cluster-autoscaler" deleted
 ```
-```
+
+```bash
 $ eksctl delete iamserviceaccount \
 >   --name cluster-autoscaler \
 >   --namespace kube-system \
@@ -562,11 +611,13 @@ $ eksctl delete iamserviceaccount \
 2022-10-13 07:32:30 [ℹ]  waiting for CloudFormation stack "eksctl-eksworkshop-eksctl-addon-iamserviceaccount-kube-system-cluster-autoscaler"
 2022-10-13 07:32:31 [ℹ]  deleted serviceaccount "kube-system/cluster-autoscaler"
 ```
-```
+
+```bash
 $ aws iam delete-policy \
   --policy-arn arn:aws:iam::${AWS_ACCOUNT}:policy/k8s-asg-policy
 ```
-```
-$ cd ~/environment
-$ eksctl delete cluster -f cluster-config.yaml --wait
+
+```bash
+cd ~/environment
+eksctl delete cluster -f cluster-config.yaml --wait
 ```

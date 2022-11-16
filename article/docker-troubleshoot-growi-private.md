@@ -5,17 +5,19 @@ published: false
 ---
 
 # はじめに
+
 限定共有記事なので他社の人間には見られないはずですが、
 弊社のセキュリティ/コンプライアンス上問題がある場合本記事は削除します。
 
 復旧にあたり紆余曲折あったので、自戒も込めて経緯を残したいと思い書きました。
 
 # 結論
+
 **docker-composeから停止し、再度構築コマンドを流した結果復旧しました。**
 ただ、後述しますがこの再構築コマンドは途中で中断しています。
 
-
 # 報告概要
+
 - [はじめに](#はじめに)
 - [結論](#結論)
 - [報告概要](#報告概要)
@@ -25,11 +27,10 @@ published: false
   - [誤ったymlで再構築されたコンテナを削除](#誤ったymlで再構築されたコンテナを削除)
   - [正しいdocker-compose.ymlを使用し再起動(再構築)](#正しいdocker-composeymlを使用し再起動再構築)
   - [現在のEC2の状態](#現在のec2の状態)
-- [docker images -a](#docker-images--a)
-- [docker system df](#docker-system-df)
   - [恒久対応として](#恒久対応として)
 
 ## 前提:初期調査時に判明したこと
+
 初期調査段階の状況は、
 **1. Dockerのファイルシステムによりボリュームが100%使用状態**
 
@@ -67,9 +68,11 @@ Containers          4                   2                   2.651GB             
 Local Volumes       5                   0                   331.2MB             331.2MB (100%)
 Build Cache         0                   0                   0B                  0B
 ```
+
 以上とmongoDBコンテナ起動時のエラー内容から、新たにコンテナを起動するスペースがないと判断しました。
 
 ## 不要なimageを削除
+
 タグがnoneのimageを削除する方針です。(和氣さんと金曜会話した方式)
 上記の`docker system df`の結果から、Inactiveなimageが6つあり、2.119GB無駄に食っている様子です。
 `docker image prune`を実行し、どのコンテナからも参照されていないimageを削除したものの、
@@ -77,7 +80,6 @@ Build Cache         0                   0                   0B                  
 
 ただし、**mongoDB用コンテナの起動には成功しました。**
 この段階ではgrowiは復旧せず、別の方式を検討。
-
 
 ```bash:docker&nbsp;image&nbsp;prune実行後のimage群
 # docker images -a
@@ -102,18 +104,20 @@ mongo                                           3.4                 51dbe74a4794
 weseek/mongodb-awesome-backup                   0.2.0               21ccb4ab1fe4        3 years ago         215MB
 elasticsearch                                   5.3-alpine          c818119f17a4        4 years ago         123MB
 ```
+
 :::note info
 REPOSITORYとTAGが<none>のimageが複数あるが、何かしらのコンテナに紐付いている模様。
 コンテナと関連するimageの確認方法がわからず...ご存知の方いたら教えてください。
 :::
 
-
 ## 誤ったdocker-compose.ymlを使用し再起動(再構築)
+
 とにかく一旦再起動を、と思いdocker-composeから再起動することにしました。
 どうやらgrowiをpullしてきたディレクトリは、`/home/ec2-user/growi`だと判明。
 上記に`cd`し、`Dckerfile`、`docker-compose.yml`の**中身を確認せず**、`docker-compose up`を実行してしまいます。
 
 ## 誤ったymlで再構築されたコンテナを削除
+
 その結果、旧verのgrowi用コンテナが新規に作成されたため、該当コンテナを削除することに。
 この際、明示的に該当コンテナを停止し既存のコンテナが起動していることを確認した後に
 `docker system prune`を実行したのですが、
@@ -124,6 +128,7 @@ REPOSITORYとTAGが<none>のimageが複数あるが、何かしらのコンテ�
 >
 
 ## 正しいdocker-compose.ymlを使用し再起動(再構築)
+
 ここまで実施後、ようやくEBSのバックアップ取得します。AWS上にあるEBSスナップショットの断面はこの時点となります。
 幸いapp層が消えただけだったので、現verのdocker-compose.ymlを実行し元通りになりました。
 現verのディレクトリは`/home/growi-docker-compose`です。dbコンテナが消えていたら詰みでした。
@@ -299,12 +304,14 @@ elasticsearch_1  | [2022-02-20T10:13:34,518][WARN ][o.e.c.r.a.DiskThresholdMonit
 elasticsearch_1  | [2022-02-20T10:14:04,522][WARN ][o.e.c.r.a.DiskThresholdMonitor] [rlJBfNH] high disk watermark [90%] exceeded on [rlJBfNH6S1CUrNHeqrbj1A][rlJBfNH][/usr/share/elasticsearch/data/nodes/0] free: 671.6mb[6.5%], shards will be relocated away from this node
 ~~以下、下から3つのログの繰り返し~~
 ```
+
 ※実行ログは報告メールに添付します。
 ログを少し調べたところ、Elasticserch用の容量が確保できていない状態のように思われました。
 Elasticserchが完全に起動しきれていないはずですが、**ここでなぜかgrowwikiが復活しました。**
 
 ## 現在のEC2の状態
-* ストレージ状況
+
+- ストレージ状況
 
 ```bash
 # df -lh
@@ -322,11 +329,12 @@ shm              64M     0   64M   0% /var/lib/docker/containers/93619fdb0a76735
 overlay          10G  9.3G  752M  93% /var/lib/docker/overlay2/0272a2ed848a763ea2394133e7ceead7728aa3f69bad5a0e279e79b00c44cb46/merged
 shm              64M     0   64M   0% /var/lib/docker/containers/12f1544f0780cb3d5f1d0c9488592805d0f0534b0f5ec1acfc3585e5e749db37/mounts/shm
 ```
+
 docker-composeを複数回実行した結果、複数のファイルシステムが作成されています。
 今後容量が増えていくファイルシステムが使用されているものだと思うので判明次第、
 その他のファイルシステムは削除しようと思います。
 
-* Dockerの状況
+- Dockerの状況
 
 ```bash:docker&nbsp;ps
 # docker ps -a
@@ -337,8 +345,10 @@ CONTAINER ID        IMAGE                                 COMMAND               
 12f1544f0780        mongo:3.6                             "docker-entrypoint.s…"   2 years ago         Up 2 hours                 27017/tcp                growidockercompose_mongo_1
 ```
 
-`bash:imageの状況
+```bash:imageの状況
+
 # docker images -a
+
 growidockercompose_app                          latest              416097e90070        2 years ago         258MB
 <none>                                          <none>              bdacfc332b6c        2 years ago         258MB
 <none>                                          <none>              2d624342baa6        2 years ago         250MB
@@ -358,17 +368,23 @@ mongo                                           3.4                 51dbe74a4794
 <none>                                          <none>              cb2455824d3a        3 years ago         242MB
 weseek/mongodb-awesome-backup                   0.2.0               21ccb4ab1fe4        3 years ago         215MB
 elasticsearch                                   5.3-alpine          c818119f17a4        4 years ago         123MB
-`bash:docker&nbsp;system&nbsp;df結果
+```
+
+```bash:docker&nbsp;system&nbsp;df結果
+
 # docker system df
+
 Images              9                   4                   2.512GB             1.84GB (73%)
 Containers          4                   3                   2.416GB             525.6MB (21%)
 Local Volumes       5                   0                   331.3MB             331.3MB (100%)
 Build Cache         0                   0                   0B                  0B
-`
+```
+
 再構築によりapp用コンテナ(growidockercompose_app)のみ新規構築されてます。
 それ以外は既存のものが利用された様子。
 
 ## 恒久対応として
+
 今とりあえず復旧はしていますが、EBSの容量拡張(ひとまず10GB→15GBにして様子見)を提案します。
 
 正確な原因を特定できなかったのでなんとも言えないのですが、
@@ -378,4 +394,4 @@ Build Cache         0                   0                   0B                  
 ここに関しては、私のDockerに対する知識不足です。すみません。
 以下公式の-aオプションの説明に記載の、参照なしと未使用の違いがわからず...
 
-https://matsuand.github.io/docs.docker.jp.onthefly/engine/reference/commandline/system_prune/
+<https://matsuand.github.io/docs.docker.jp.onthefly/engine/reference/commandline/system_prune/>

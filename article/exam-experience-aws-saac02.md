@@ -5,30 +5,34 @@ published: true
 ---
 
 # 本記事の概要
+
 AWS認定ソリューションアーキテクト–アソシエイト(SAA-C02) を受験し取得したので勉強方法を備忘録として投稿します。
 AWS-SAAを受けようと思っている方や、現在勉強している方がこの記事を参考の一つにしていただけたら幸いです。
 
 # 使用した教材
+
 Udemy
-・[AWS：ゼロから実践するAmazon Web Services。手を動かしながらインフラの基礎を習得] (https://www.udemy.com/course/aws-and-infra/)
-・[これだけでOK！ AWS 認定ソリューションアーキテクト – アソシエイト試験突破講座（SAA-C02試験対応版）] (https://www.udemy.com/course/aws-associate/)
-・[【SAA-C02版】AWS 認定ソリューションアーキテクト アソシエイト模擬試験問題集（6回分390問）] (https://www.udemy.com/course/aws-knan/)
+・[AWS：ゼロから実践するAmazon Web Services。手を動かしながらインフラの基礎を習得] (<https://www.udemy.com/course/aws-and-infra/>)
+・[これだけでOK！ AWS 認定ソリューションアーキテクト – アソシエイト試験突破講座（SAA-C02試験対応版）] (<https://www.udemy.com/course/aws-associate/>)
+・[【SAA-C02版】AWS 認定ソリューションアーキテクト アソシエイト模擬試験問題集（6回分390問）] (<https://www.udemy.com/course/aws-knan/>)
 
 WHIZLABS
-・[AWS Certified Solutions Architect Associate] (https://www.whizlabs.com/aws-solutions-architect-associate/)
+・[AWS Certified Solutions Architect Associate] (<https://www.whizlabs.com/aws-solutions-architect-associate/>)
 
 AWS Black Belt
-・[AWSサービス別資料] (https://aws.amazon.com/jp/aws-jp-introduction/aws-jp-webinar-service-cut/)
+・[AWSサービス別資料] (<https://aws.amazon.com/jp/aws-jp-introduction/aws-jp-webinar-service-cut/>)
 
 # 勉強の流れ　その１
+
 最初はAWSとはなんぞや？状態でしたので
-**「AWS：ゼロから実践するAmazon Web Services。手を動かしながらインフラの基礎を習得」**を実施。
+**「AWS：ゼロから実践するAmazon Web Services。手を動かしながらインフラの基礎を習得」** を実施。
 
 本当にゼロからでもハンズオンを通して一般的な`VPC`+`EC2`+`ELB`+`RDS`+`Route53`+`S3`+`CloudFront`+`CloudWatch`+`IAM`を学ぶことができるので初学者にはとてもオススメ。（というか、今回使用した教材はすべてオススメします。）
 
 # 勉強の流れ　その２
+
 その１の教材を終えたらAWSの基本的なサービスはおさえている状態になったので、次は
-**これだけでOK！ AWS 認定ソリューションアーキテクト – アソシエイト試験突破講座（SAA-C02試験対応版)**を実施。
+**これだけでOK！ AWS 認定ソリューションアーキテクト – アソシエイト試験突破講座（SAA-C02試験対応版)** を実施。
 
 こちらの教材はより試験対策的な内容です。
 といっても、以前の教材では扱われなかったサービスを学ぶことができます。
@@ -38,14 +42,15 @@ AWS Black Belt
 ちなみに私は着手してから終えるまで約1か月はかかりました。**スケジューリングって大事。**
 
 # 勉強の流れ　その３
+
 この後はひたすら問題演習です。
-**【SAA-C02版】AWS 認定ソリューションアーキテクト アソシエイト模擬試験問題集（6回分390問）**で問題に慣れましょう。
+**【SAA-C02版】AWS 認定ソリューションアーキテクト アソシエイト模擬試験問題集（6回分390問）** で問題に慣れましょう。
 
 こちらの教材は6回分の問題が含まれていますが、初回は3～5割程度の得点率でした。
 3週ほど回し、8割くらいとれるようになったのでもういいかな？と思いましたが、
 `「AWS-SAAは問題演習で解いた問題はほとんど本番では出ない」`
 という情報がネットに沢山転がっていたので不安になり、
-**AWS Certified Solutions Architect Associate (WHIZLABSのコース)**を追加で実施。
+**AWS Certified Solutions Architect Associate (WHIZLABSのコース)** を追加で実施。
 
 こちらはすべて英語の教材となります。
 これを機に英語を克服するのもアリかも？Google翻訳にかけてしまうのも全然アリ。
@@ -54,7 +59,7 @@ AWS Black Belt
 WHIZLABSのコースではセクション毎にまとめられている問題があるので、
 最後の総復習のような形で利用しました。
 ちなみに得点率は5割～7割ほどで、試験直前の1週間でやっていたのですが
-**「これ本番大丈夫か...?」**というメンタルになりました。
+**「これ本番大丈夫か...?」** というメンタルになりました。
 
 # 試験結果
 
@@ -67,9 +72,10 @@ WHIZLABSのコースではセクション毎にまとめられている問題が
 
 **うーん、ギリギリ！ｗ**
 正直言って、自信をもって解答できた問題よりも
-**「たぶんこっちかな～」**というノリでしか選べない問題のほうが多かったです。
+**「たぶんこっちかな～」** というノリでしか選べない問題のほうが多かったです。
 
-# 受験してみての感想
+# 受験後の感想
+
 ネットの情報通り教材で出てくる問題と本番の問題はほとんど一致しませんでした。
 この試験では、体系的にAWSのサービスを理解する必要があるということですね。
 単純に問題演習を通した暗記では突破できないので私のようなタイプには難しい試験でした。

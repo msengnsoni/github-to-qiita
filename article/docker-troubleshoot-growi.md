@@ -5,13 +5,16 @@ published: true
 ---
 
 # はじめに
+
 本記事は、自社内で使用しているgrowiのwikiが起動しなくなったため、
 実施した障害対応の経緯を記載したものです。
 
 # 調査時のインスタンスの状態
+
 本サーバ構築者 ≠ 筆者で設計書もないため現状調査から。
 
 **0. OSバージョン**
+
 ```bash
 $ cat /etc/system-release
 Amazon Linux release 2 (Karoo)
@@ -53,10 +56,12 @@ Containers          4                   2                   2.651GB             
 Local Volumes       5                   0                   331.2MB             331.2MB (100%)
 Build Cache         0                   0                   0B                  0B
 ```
+
 以上とmongoDBコンテナ起動時のエラー内容から、新たにコンテナを起動するスペースがないため起動できず、
 growiが停止していると判断しました。
 
 # 不要なimageを削除し容量確保
+
 上記の結果から、Inactiveなimageが6つあり、2.119GB無駄に食っている様子です。
 `docker image prune`を実行したものの、**1つしかimageが削除されず**
 期待していたほどの容量の確保には繋がりませんでしが、
@@ -78,10 +83,12 @@ Build Cache         0                   0                   0B                  
 ```
 
 # 【やらかし】旧verのdocker-compose.ymlを使用し再構築
+
 一旦docker環境の再起動を、と思いdocker-composeから再起動することにしました。
 どうやらgrowiをcloneしたディレクトリは、`/home/ec2-user/growi※`だと判明。(やらかし1)
 
 >※後の判明しましたが、上記は旧verのディレクトリでした。
+>
 >* 旧ver = /home/ec2-user/growi
 >* 現ver = /home/growi-docker-compose
 
@@ -92,6 +99,7 @@ Build Cache         0                   0                   0B                  
 >また、旧verにはgrowiが提供するバックアップシステム(mongodb-awesome-backup)がありません
 
 # 【やらかし】現verのapp用コンテナが削除
+
 その結果、旧verのgrowi用コンテナが新規に作成されたため、該当コンテナを削除することに。
 この際、明示的に該当コンテナを停止し既存のコンテナが起動していることを確認した後に
 `docker system prune`を実行したのですが、
@@ -100,6 +108,7 @@ Build Cache         0                   0                   0B                  
 ```bash
 docker system prune
 ```
+
 ```bash
 # docker container ls -a
 CONTAINER ID        IMAGE                                 COMMAND                  CREATED             STATUS                     PORTS                    NAMES
@@ -109,8 +118,9 @@ CONTAINER ID        IMAGE                                 COMMAND               
 ```
 
 # 現verのdocker-compose.ymlを使用し再構築
+
 幸いapp層のコンテナが消えただけだったので、現verのディレクトリに移動し
-`docker-compose up `を実行したら元通りになり、**growiも復旧しました。**
+`docker-compose up`を実行したら元通りになり、**growiも復旧しました。**
 dbコンテナが消えていたら詰んでました。
 
 ```bash
@@ -118,6 +128,7 @@ docker-compose up
 ```
 
 # 教訓
+
 * `docker-compose up`は`Dockerfile`、`docker-compose.yml`の中身を確認してから実行しよう！
 * `docker system prune`は、開発環境等で動作を確認してから実行しよう！
 

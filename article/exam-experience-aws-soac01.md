@@ -5,20 +5,23 @@ published: true
 ---
 
 # 本記事の概要
+
 AWS認定SysOpsアドミニストレーター–アソシエイト(SOA-C01) を取得したので勉強方法を備忘録として投稿します。
 AWS-SOAを受けようと思っている方や、現在勉強している方がこの記事を参考の一つにしていただけたら幸いです。
 
 # 使用した教材
+
 WEBサイト
-・[awsWEB問題集で学習しよう] (https://aws.koiwaclub.com/)
+・[awsWEB問題集で学習しよう] (<https://aws.koiwaclub.com/>)
 
 Udemy
-・[Ultimate AWS Certified SysOps Administrator Associate 2021] (https://www.udemy.com/course/ultimate-aws-certified-sysops-administrator-associate/)
+・[Ultimate AWS Certified SysOps Administrator Associate 2021] (<https://www.udemy.com/course/ultimate-aws-certified-sysops-administrator-associate/>)
 
 WHIZLABS
-・[AWS Certified SysOps Administrator Associate] (https://www.whizlabs.com/aws-sysops-administrator-associate/)
+・[AWS Certified SysOps Administrator Associate] (<https://www.whizlabs.com/aws-sysops-administrator-associate/>)
 
 # 勉強の流れ
+
 AWSについては、AWS-SAAを取得済みということもあり
 大体のサービスについては理解している状態からのスタートです。
 
@@ -50,8 +53,8 @@ WEB問題集終了後は、[SAA試験の際](2020-12-04_AWS_191dc5c77fbaf238ce28
 SOAは、SAAの時とは違いWEB問題集やWHIZLABSで実施した問題が
 そのまま出題されたので自信があったのですが、点数はあまり伸びず...
 
+# 受験後の感想
 
-# 受験してみて
 勉強期間は1ヶ月ほどでしたが、個人的にはSAAよりも解きやすい試験だと感じました。
 アソシエイト3冠まで残すは`AWS認定デベロッパー–アソシエイト`のみ！
 次もがんばります！
