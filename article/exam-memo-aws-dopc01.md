@@ -10,3 +10,9 @@ published: false
 主に問題演習中に連続して間違えたものを記載しています。
 
 - CI/CD
+  - Continuous Delivery vs Continuous Deployment
+    - Continuous Delivery
+      - デプロイを**承認**後に実行する
+    - Continuous Deployment
+      - デプロイが完全に自動化される。(push = deploy)
+    - 
