@@ -278,7 +278,7 @@ kubectl apply -f prometheus-servicemonitor.yaml -n prometheus
 
 # KEDAのデプロイ
 
-## KEDAをグラフリポジトリに追加
+## KEDAをリポジトリに追加
 
 ```bash
 helm repo add kedacore https://kedacore.github.io/charts
