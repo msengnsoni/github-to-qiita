@@ -92,36 +92,51 @@ published: false
     - commandsは何よりも先にアプリケーションやwebサーバ内で実行されるコマンドを定義する
     - container_commandsはアプリケーションやwebサーバがセットアップされた後に実行されるコマンドを定義する
 
-  - API Gateway
-    - エンドポイントタイプ
-      - リージョン
-        - 今いるリージョンに配置
-      - エッジ最適化
-        - クラウドフロントエッジに配置
-        - レイテンシーを削減したい場合に選択
-      - プライベート
-        - VPC内に配置されVPC内のリソースにアクセス可能
-        - API GatewayのVPCエンドポイントを介してのみアクセス可能
-    - Canary
-      - APIGateway自体の機能
-      - 特定の重さを設定し変更を確認できる
-      - ステージング環境として使用
-      - 特定の機能と統合されている場合(Lambda等)はLambda自体の機能(Aliases機能)でcanaryを実現可能
+- API Gateway
+  - エンドポイントタイプ
+    - リージョン
+      - 今いるリージョンに配置
+    - エッジ最適化
+      - クラウドフロントエッジに配置
+      - レイテンシーを削減したい場合に選択
+    - プライベート
+      - VPC内に配置されVPC内のリソースにアクセス可能
+      - API GatewayのVPCエンドポイントを介してのみアクセス可能
+  - Canary
+    - APIGateway自体の機能
+    - 特定の重さを設定し変更を確認できる
+    - ステージング環境として使用
+    - 特定の機能と統合されている場合(Lambda等)はLambda自体の機能(Aliases機能)でcanaryを実現可能
 
-  - CloudTrail
-    - ログを特定のアカウントに集約可能(マルチアカウントロギング)
+- CloudTrail
+  - ログを特定のアカウントに集約可能(マルチアカウントロギング)
 
-  - CloudWatch Logs
-    - ストリーム可能なサービス
-      - Lambda
-      - Kinesis
-      - Kinesis Firehose
-      - OpenSearch Service (new!)
+- CloudWatch Logs
+  - ストリーム可能なサービス
+    - Lambda
+    - Kinesis
+    - Kinesis Firehose
+    - OpenSearch Service (new!)
 
-  - CloudWatch Event
-    - S3 Event vs CloudWatch Event
-      - S3 Eventは基本的なイベントに対してアクションを設定可能
-      - S3サービスにネイティブである(特段別サービスで設定不要)
-      - CloudWatch Eventはより多くのイベントで設定可能
-      - (CloudTrailログを操作する場合)CloudTrailサービス側で(CloudWatch Eventにより)ログの操作を可能にする設定が必要
+- CloudWatch Event
+  - S3 Event vs CloudWatch Event
+    - S3 Eventは基本的なイベントに対してアクションを設定可能
+    - S3サービスにネイティブである(特段別サービスで設定不要)
+    - CloudWatch Eventはより多くのイベントで設定可能
+    - (CloudTrailログを操作する場合)CloudTrailサービス側で(CloudWatch Eventにより)ログの操作を可能にする設定が必要
+
+- ElasticSearch (Amazon ES)
+  - ユースケース
+    - ログアナリティクス
+    - リアルタイムアプリケーションモニタリング
+    - セキュリティアナリティクス
+    - フルテキストサーチ
+    - クリックストリームアナリティクス
+    - 索引
+
+- AWSリソースのタグ付け (Tagging)
+  - 一般的なベストプラクティス
+    - コスト計算のため
+    - セキュリティ、操作対象リソースの明確化(TBAC)
+
 
