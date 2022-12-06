@@ -12,4 +12,4 @@ git pull
 
 Copyright (c) 2022 noraworld  
 Released under the MIT license  
-https://github.com/noraworld/github-to-qiita/blob/main/LICENSE
+<https://github.com/noraworld/github-to-qiita/blob/main/LICENSE>
