@@ -33,7 +33,7 @@ export PATH=$PATH:/c/Users/username/.local/bin
 eval "$(starship init bash)"
 ```
 
-`source ~/.bashrc`もしくはGit Bashを再起動すると、starshipが適用しているのを確認できました。
+`source ~/.bashrc`もしくはGit Bashを再起動すると、starshipが適用されているのを確認できました。
 ![starshipimage.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/554835/6be8e84b-c736-13eb-228b-ac4d3f0c3ed3.png)
 
 やったね！
