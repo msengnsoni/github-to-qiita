@@ -35,6 +35,10 @@ published: false
     - 成果物をS3バケットにアップロードできる
 - 環境変数の値にパラメータストアの値を指定可能
   - ただし実行ロールにSSMのリード許可ポリシーが必要
+- 手動承認が必要なユースケースのイベントシーケンス
+  1. デプロイ
+  2. テスト
+  3. (成功した場合)手動で承認の通知
 
 # CodeDeploy
 
@@ -67,6 +71,9 @@ published: false
       - CodeDeployがfilesセクションで指定された場所にファイルをコピーする前
     - AfterInstall
       - CodeDeployがfiles セクションで指定された場所にファイルをコピーした後
+    - AfterAllowTestTraffic
+    - BeforeAllowTraffic
+    - AfterAllowTraffic
     - ApplicationStart
       - アプリケーションのリビジョンが開始する直前
     - ValidateService
@@ -177,6 +184,8 @@ published: false
 
 - チェックは5分に一回リフレッシュ可能
 - 24時間以上チェックが実行されなかった場合自動でリフレッシュされる
+- 使用率の低いEC2インスタンスを検知可能
+- 
 
 # Auto Scaling Group (ASG)
 
@@ -206,3 +215,15 @@ published: false
     4. 上記適用後にインスタンスが残っている場合、次の課金時間に最も近いインスタンスを終了する
     5. 4.が同じ課金時間の場合はランダムに終了
 - スケジュールに基づいたスケーリングを設定可能
+
+# Kibana
+
+- アクセスコントロールオプション
+  - Amazon Cognito認証
+  - プロキシサーバのある、またはないIPベースのアクセスポリシー
+
+# Amazon Inspector
+
+- 自動化されたセキュリティ評価サービス
+- AWSにデプロイしたアプリケーションのセキュリティとコンプライアンスを向上させる
+
