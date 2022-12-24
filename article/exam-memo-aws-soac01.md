@@ -1,5 +1,5 @@
 ---
-title: "【対策メモ】AWS認定SysOpsアドミニストレーター-アソシエイト試験対策メモ"
+title: "【対策メモ】AWS認定SysOpsアドミニストレーター-アソシエイト試験"
 topics: ["AWS", "AWS認定試験", "初心者", "資格"]
 published: true
 ---
