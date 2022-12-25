@@ -1,5 +1,5 @@
 ---
-title: "【合格体験記】AWS認定DevOpsエンジニア–プロフェッショナル(DOP-C01)"
+title: "【合格体験記】AWS認定DevOpsエンジニア-プロフェッショナル(DOP-C01)"
 topics: ["AWS", "AWS認定試験", "資格"]
 published: true
 ---
