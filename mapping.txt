@@ -17,3 +17,4 @@ article/setting-gitBash-starship.md, 7827ef647b92f9210085
 article/public-test.md, 630e71eeb7153b8d9249
 article/test-mapping.md, 0c8ebb3de6dffad8f073
 article/setting-gitBash-paste.md, d4f5dcd939c53b85c11e
+article/exam-experience-aws-dopc01.md, 285ff0d9bcf18204c008
