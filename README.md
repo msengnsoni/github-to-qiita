@@ -4,7 +4,7 @@ qiitaは[こちら](https://qiita.com/msengnsoni)
 
 # 注意事項
 新規投稿した際、Qiita側の処理によりpush後に`./mapping.txt`が更新されます。  
-localの`./mapping.txt`と内容を同期するため`git pull`を実施すること。
+localの`./mapping.txt`と内容を同期するため、新規投稿後は必ず`git pull`を実施すること。
 
 ```
 git pull
