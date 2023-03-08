@@ -185,7 +185,8 @@ spec:
         - type: Percent
           value: 20
           periodSeconds: 30
-`
+```
+
 - spec配下がオートスケール設定
 - maxReplicas = 最大レプリカ数
 - minReplicas = 最小レプリカ数
@@ -196,13 +197,13 @@ spec:
 - behaviorでメトリクス収集間隔やスケール動作を指定
   - 詳細は[こちら](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#configurable-scaling-behavior)を参照
 
-
 # Nodeのオートスケール
+
 - Cluster Autoscaler (CA)
   - nodeの水平スケーリングをnodeがpendingになったことをトリガーに実行する
 
 クラスタ定義ファイルの作成
-`bash:cluster-config.yaml
+```bash:cluster-config.yaml
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 metadata:
@@ -285,8 +286,7 @@ Policyの作成
 
 ```bash
 $ mkdir ~/environment/cluster-autoscaler
-
-$ at <<EoF > ~/environment/cluster-autoscaler/k8s-asg-policy.json
+$ cat <<EoF > ~/environment/cluster-autoscaler/k8s-asg-policy.json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -567,17 +567,18 @@ NAME                                                STATUS   ROLES    AGE   VERS
 ip-192-168-87-159.ap-northeast-1.compute.internal   Ready    <none>   37m   v1.21.2-13+d2965f0db10712
 ```
 
-- スケールインの対象外になる条件について
-  - [CAのFAQ](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-types-of-pods-can-prevent-ca-from-removing-a-node)に記載あり
-    - 対象Nodeに載っているPodがPodDisruptionBudget(以下PDB)によってEvictされることを制限されている
-    - kube-system namespace配下のPodが存在している、かつ
-      - そのPodはデフォルトで起動しないPodである
-      - そのPodにPDBが設定されていない、またはPDBの制限が厳しすぎる
-    - DeploymentやStatefulSetなどのController Objectの管理外のPodが存在している
-    - localStorageを持つPodが存在している
-    - ソース不足などでPodがEvictできないとき
-    - 以下のアノテーション付与されているPodが存在している
-      - "cluster-autoscaler.kubernetes.io/safe-to-evict": "false"
+### スケールインの対象外になる条件について
+
+- CAの[FAQ](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-types-of-pods-can-prevent-ca-from-removing-a-node)に記載あり
+  - 対象Nodeに載っているPodがPodDisruptionBudget(以下PDB)によってEvictされることを制限されている
+  - kube-system namespace配下のPodが存在している、かつ
+    - そのPodはデフォルトで起動しないPodである
+    - そのPodにPDBが設定されていない、またはPDBの制限が厳しすぎる
+  - DeploymentやStatefulSetなどのController Objectの管理外のPodが存在している
+  - localStorageを持つPodが存在している
+  - ソース不足などでPodがEvictできないとき
+  - 以下のアノテーション付与されているPodが存在している
+    - "cluster-autoscaler.kubernetes.io/safe-to-evict": "false"
 
 # クリーンアップ
 
