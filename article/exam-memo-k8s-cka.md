@@ -29,4 +29,3 @@ published: false
 
 - podがどのノードに配置されるかを**決定するだけ**
   - 実際にpodを配置する仕事はkubeletが実行する
-
