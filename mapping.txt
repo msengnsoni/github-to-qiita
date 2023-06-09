@@ -18,3 +18,4 @@ article/public-test.md, 630e71eeb7153b8d9249
 article/test-mapping.md, 0c8ebb3de6dffad8f073
 article/setting-gitBash-paste.md, d4f5dcd939c53b85c11e
 article/exam-experience-aws-dopc01.md, 285ff0d9bcf18204c008
+article/exam-memo-k8s-cka.md, be6ad6e81f9e36414935
