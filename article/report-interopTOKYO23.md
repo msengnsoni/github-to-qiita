@@ -4,9 +4,11 @@ topics: ["ポエム"]
 published: false
 ---
 
-今年度、STMとしてInteropTokyo 2023に参加してきたので、そこでセッションに参加した際の体験や次に生かしたいことをまとめていきます。
+InteropTokyo 2023に参加してきたので、そこでのセッション体験や次に生かしたいことをまとめていきます。
 
 # Sky株式会社ブース
+
+![IMG_3394.jpg](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/554835/959e79df-2374-8d6c-c39e-c85cd2d761c5.jpeg)
 
 - 製品、サービス紹介が主でセッションで紹介されていた製品は以下の通り
   - クライアント運用管理ソフトウェア「SKYSEA Client View」
@@ -22,6 +24,8 @@ published: false
 
 # Zabbixブース (セッション登壇者：NTT communications)
 
+![IMG_3396.jpg](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/554835/fb29dc56-719f-1be6-f310-3a87095e5a47.jpeg)
+
 - ZABICOM(Zabbix)の製品機能紹介が主
   - PortMap/RackMap/NetMapの導入事例が軽く紹介されていたのが製品としての実感を持たせてくれて印象的
 - 所感
@@ -31,6 +35,8 @@ published: false
   - マグネットクリップ
 
 # 日立製作所 & Microsoftブース (セッション登壇者：日立製作所)
+
+![IMG_3403.jpg](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/554835/0894a1e0-3014-cc56-e8ba-8d84f8e80411.jpeg)
 
 - 日立HCIソリューション for Azure Stack HCIの促進販売が主
   - 日立製作所としての強みを活かすという点で日立サポート360を推していたことが印象的
@@ -43,6 +49,8 @@ published: false
 
 # テクマトリックス
 
+![IMG_3407.jpg](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/554835/6bf80806-9880-5a74-4096-0a8393c4be0e.jpeg)
+
 - NEOの紹介が主
   - 価格も込で紹介していたことが印象的、より導入までのイメージを持ちやすいので良いと思う
 - 所感
@@ -50,6 +58,8 @@ published: false
   - テクマトリックスの提供サービスとしては、Appgate SDPが人気？NEOの前にセッションをしていたが人が多かった印象
 
 # Spirent Communications Japan
+
+![IMG_3421.jpg](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/554835/f7ddd9c6-afdd-32de-61d5-38cef7a4e746.jpeg)
 
 - 事前登録制の「クラウド試験ソリューションとデジタルツイン」講演に参加
   - 数年前よりクラウドネイティブという言葉は日本の業界内で認知はされいたが、今年から本格的に動き出している企業が多いそう
@@ -78,6 +88,8 @@ published: false
       - デジタルツインの導入により、システム運用のコストを削減
 
 # その他 (O'Reilly)
+
+![IMG_3395.jpg](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/554835/d662067b-1628-0087-7289-a0bd4ddf646f.jpeg)
 
 - オライリー本が会場限定だったので2冊購入、購入特典にTシャツがあった見たいですが品切れてしまったようで残念...
 
