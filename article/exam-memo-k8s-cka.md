@@ -75,3 +75,10 @@ published: false
 - デフォルトのパスは``/etc/kubernetes/manifests``
 - kubeconfig.yamlの``staticPodPath``がstatic podのmanifestファイルを配置するパスになる
 
+# Scheduler Plugins
+
+- スケジューラーフレームワーク
+  - Kubernetesのスケジューラーに対してプラグイン可能なアーキテクチャ
+  - [公式サイト](https://kubernetes.io/ja/docs/concepts/scheduling-eviction/scheduling-framework/)の記載を要参照
+
+
