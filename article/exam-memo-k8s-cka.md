@@ -81,4 +81,15 @@ published: false
   - Kubernetesのスケジューラーに対してプラグイン可能なアーキテクチャ
   - [公式サイト](https://kubernetes.io/ja/docs/concepts/scheduling-eviction/scheduling-framework/)の記載を要参照
 
+# configMap
 
+- cm作成コマンド``kubectl create cm <name> --from-literal=<key>=<value>``
+
+# Secret
+
+- secret作成コマンド``kubectl create secret generic <name> --from-literal=<key>=<value>``
+
+# initContainer
+
+- アプリのコンテナが起動する前に実行される1つ以上のinitコンテナを持つことができる
+- containersフィールドと同じインデントに``initContainers``フィールドを記載する
