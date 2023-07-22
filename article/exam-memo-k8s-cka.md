@@ -93,3 +93,27 @@ published: false
 
 - アプリのコンテナが起動する前に実行される1つ以上のinitコンテナを持つことができる
 - containersフィールドと同じインデントに``initContainers``フィールドを記載する
+
+# 各componentのversion管理
+
+- Kube-apiserver = 1.10 (X)
+  - Controller-manager = 1.9 or 1.10 (X-1)
+  - Kube-scheduler = 1.9 or 1.10 (X-1)
+  - Kubelet = 1.8 or 1.9 or 1.10 (X-2)
+  - Kube-proxy = 1.8 or 1.9 or 1.10 (X-2)
+  - Kubectl = 1.9 or 1.10 or 1.11 (X+1 > X-1)
+
+# etcdのバックアップ/リストア
+
+- 基本的には[公式](https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/)を参照
+- etcdctlコマンドに渡すオプションに必要な情報はetcdのpodをdescribeして確認 or 動作nodeに入り``ps aux | grep etcd``でオプションを確認
+- etcdが外部サーバの場合(etcdサーバに入り実行)
+  - ``ps aux | grep etcd``でオプション確認
+  - ``systemctl status etcd``で実行サービスのpath確認
+- リストア時に``--data-dir``でdataディレクトリを変更した場合
+  - etcdがpodの場合(動作nodeに入り実行)
+    - ``/etc/kubernetes/manifest/etcd.yaml``内のvolume及びvolumeMountフィールドを変更
+  - etcdが外部サーバの場合(etcdサーバに入り実行)
+    - etcdのサービスファイルを編集しオプションの値を変更
+    - ``--data-dir``で指定したディレクトリの権限を``chown -R``で変更、基本的に以前指定していたディレクトリと合わせる
+    - ``systemctl daemon-reload``と``systemctl restart etcd``を実行しプロセス再起動
