@@ -33,6 +33,7 @@ published: false
 # Pod
 
 - 作成コマンド``kubectl run``
+- 特定のnode上にpodを作成した場合、``spce.nodeName``フィールドに記述が簡単
 
 # Deployment
 
@@ -117,3 +118,10 @@ published: false
     - etcdのサービスファイルを編集しオプションの値を変更
     - ``--data-dir``で指定したディレクトリの権限を``chown -R``で変更、基本的に以前指定していたディレクトリと合わせる
     - ``systemctl daemon-reload``と``systemctl restart etcd``を実行しプロセス再起動
+
+# Cluster Network
+
+- クラスタに設定されているNetworking Solutionを確認したい
+  - ``/etc/cni/net.d``ディレクトリを確認
+- serviceのIP rangeを確認したい
+  - api-serverのmanifestファイル内(デフォルトで``/etc/kubernetes/manifests/``配下)を確認
