@@ -34,6 +34,10 @@ published: false
 
 - 作成コマンド``kubectl run``
 - 特定のnode上にpodを作成した場合、``spce.nodeName``フィールドに記述が簡単
+- ``spec.containers.command``フィールド → pod立ち上げ時に実行するコマンドを設定
+  - DockerfileのENTRYPOINTを上書き
+- ``spec.containers.args``フィールド → ``spec.containers.command``に与える引数を設定
+  - DockerfileのCMDを上書き
 
 # Deployment
 
