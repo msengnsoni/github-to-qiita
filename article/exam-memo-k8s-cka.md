@@ -42,17 +42,18 @@ published: false
 # Deployment
 
 - 作成コマンド``kubectl create deployment``
+  - ``create``コマンドで``--labels``はサポートしていないため注意
 
 # Service
 
-- 作成コマンド``kubectl expose pod``
+- 作成コマンド``kubectl expose {pod/rs/deploy}``
 - DNS Aレコードは``my-svc.my-namespace.svc.cluster.local``の形式
 - NodePort
   - TargetPort = あて先pod側の待ち受けport
   - Port = Service自信の利用port
   - NodePort = 外部からアクセスするための利用port
   - あくまで主観はserviceであることを意識する
-- pod作成と同時にserviceを作成する場合は``--expose=true``を``run``コマンド実行時に指定
+- pod作成と同時にserviceを作成する場合は``--expose=true``を``kubectl run``コマンド実行時に指定
 
 # TaintとToleration
 
@@ -129,3 +130,8 @@ published: false
   - ``/etc/cni/net.d``ディレクトリを確認
 - serviceのIP rangeを確認したい
   - api-serverのmanifestファイル内(デフォルトで``/etc/kubernetes/manifests/``配下)を確認
+
+# Troubleshooting
+
+- apiserverのデフォルトポートは``6443``
+-
