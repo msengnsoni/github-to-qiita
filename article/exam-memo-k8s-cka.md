@@ -67,6 +67,13 @@ published: false
 - ラベルとの組み合わせでpodに対して特手のノードに配置されることを強制する
 - spec配下のフィールドに記載、記載要領は[公式サイト](https://kubernetes.io/ja/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)を要参照
 
+# Pod Affinity
+
+- podAffinity
+  - 特定のPodが存在するNodeへスケジューリングする
+- podAntiAffinity
+  - 特定のPodが存在していないNodeへスケジューリングする
+
 # Resource要求と制御
 
 - podの使用するリソースを制御する方法を大きく3つ
@@ -79,7 +86,8 @@ published: false
 # Static Pod
 
 - デフォルトのパスは``/etc/kubernetes/manifests``
-- kubeconfig.yamlの``staticPodPath``がstatic podのmanifestファイルを配置するパスになる
+  - kubeconfig.yaml(kubeletの``--config``オプションに設定されているファイル)の``staticPodPath``がstatic podのmanifestファイルを配置するパスになる
+  - kubeletの``--pod-manifest-path``オプションがmanifestファイルを配置するパスになる
 
 # Scheduler Plugins
 
@@ -128,10 +136,38 @@ published: false
 
 - クラスタに設定されているNetworking Solutionを確認したい
   - ``/etc/cni/net.d``ディレクトリを確認
-- serviceのIP rangeを確認したい
-  - api-serverのmanifestファイル内(デフォルトで``/etc/kubernetes/manifests/``配下)を確認
+- serviceのIP range(CIDR)を確認したい
+  - api-serverのmanifestファイル内(デフォルトで``/etc/kubernetes/manifests/``配下)``--service-cluster-ip-range``オプションを確認
 
 # Troubleshooting
 
 - apiserverのデフォルトポートは``6443``
--
+- k8sリソースの確認コマンドは``kubectl api-resources``
+- systemd管理のユニットファイル内に変更を加えた後は``systemctl daemon-reload``を忘れない
+
+# metrics server
+
+- 導入後``kubectl top``が使用可能
+
+# cluster update
+
+- ツール(kubeadm,kubelet,kubectl)のアップグレード先versionを確認
+  - ``apt show <tool_name> -a | grep <version_number>``コマンドを実行
+
+# kubeadm
+
+- worker nodeを新規にjoinさせるコマンドを出力
+  - master nodeで``kubeadm token create --print-join-command``コマンドを実行
+- 証明書の有効期限を出力
+  - master nodeで``kubeadm certs check-expiration``コマンドを実行
+- 証明書を更新
+  - master nodeで``kubeadm certs renew <target_comportnent>``コマンドを実行
+
+# 試験開始後のセットアップ
+
+- **kubectl Cheat Sheet**の最初に記載のコマンドを実行(kubectlのオートコンプリート、k=kubectlに)
+- ~/.bashrcの編集し以下追加(暗記する必要あり)
+  - ``alias do="--dry-run=client -o yaml"``
+  - ``alias now="--force --grace-period 0"``
+  - ``alias kn='kubectl config set-context --current --namespace '``
+- ``source .bashrc``
