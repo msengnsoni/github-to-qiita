@@ -166,8 +166,9 @@ published: false
 # 試験開始後のセットアップ
 
 - **kubectl Cheat Sheet**の最初に記載のコマンドを実行(kubectlのオートコンプリート、k=kubectlに)
-- ~/.bashrcの編集し以下追加(暗記する必要あり)
-  - ``alias do="--dry-run=client -o yaml"``
-  - ``alias now="--force --grace-period 0"``
-  - ``alias kn='kubectl config set-context --current --namespace '``
-- ``source .bashrc``
+- ``export do="--dry-run=client -o yaml"``
+
+# コマンド関連
+
+- ``--record=true``をつけて実行すると``kubectl rollout``で状態や履歴の確認が可能
+- 
