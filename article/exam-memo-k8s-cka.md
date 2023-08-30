@@ -62,14 +62,12 @@ published: false
   - 特定のノードに配置されることを保証するものではないことに注意
 - masterノードにpodが配置されないようになっているのもこの機能によるもの
 
-# Node Affinity
+# Affinity
 
-- ラベルとの組み合わせでpodに対して特手のノードに配置されることを強制する
-- spec配下のフィールドに記載、記載要領は[公式サイト](https://kubernetes.io/ja/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)を要参照
-
-# Pod Affinity
-
-- podAffinity
+- NodeAffinity
+  - ラベルとの組み合わせでpodに対して特手のノードに配置されることを強制する
+  - spec配下のフィールドに記載、記載要領は[公式サイト](https://kubernetes.io/ja/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)を要参照
+- PodAffinity
   - 特定のPodが存在するNodeへスケジューリングする
 - podAntiAffinity
   - 特定のPodが存在していないNodeへスケジューリングする
