@@ -48,10 +48,10 @@ published: false
 
 - 作成コマンド``kubectl expose {pod/rs/deploy}``
 - DNS Aレコードは``my-svc.my-namespace.svc.cluster.local``の形式
-- NodePort
+- 各Portの概念
   - TargetPort = あて先pod側の待ち受けport
   - Port = Service自信の利用port
-  - NodePort = 外部からアクセスするための利用port
+  - NodePort (type=NodePort利用時) = 外部からアクセスするための利用port
   - あくまで主観はserviceであることを意識する
 - pod作成と同時にserviceを作成する場合は``--expose=true``を``kubectl run``コマンド実行時に指定
 
@@ -110,12 +110,12 @@ published: false
 
 # 各componentのversion管理
 
-- Kube-apiserver = 1.10 (X)
-  - Controller-manager = 1.9 or 1.10 (X-1)
-  - Kube-scheduler = 1.9 or 1.10 (X-1)
-  - Kubelet = 1.8 or 1.9 or 1.10 (X-2)
-  - Kube-proxy = 1.8 or 1.9 or 1.10 (X-2)
-  - Kubectl = 1.9 or 1.10 or 1.11 (X+1 > X-1)
+- Kube-apiserver = Xの場合 (1.10の場合)
+  - Controller-manager = X-1 (1.9 or 1.10)
+  - Kube-scheduler = X-1 (1.9 or 1.10)
+  - Kubelet = X-2 (1.8 or 1.9 or 1.10)
+  - Kube-proxy = X-2 (1.8 or 1.9 or 1.10)
+  - Kubectl = X+1 > X-1 (1.9 or 1.10 or 1.11)
 
 # etcdのバックアップ/リストア
 
@@ -171,4 +171,25 @@ published: false
 # コマンド関連
 
 - ``--record=true``をつけて実行すると``kubectl rollout``で状態や履歴の確認が可能
-- 
+- k8s関連コマンド以外で使い方を知っているべきコマンド
+  - ps
+    - aux
+  - ssh
+  - openssl x509
+    - -in
+    - -text
+  - journalctl
+    - -u
+  - systemctl (service)
+    - daemon-reload
+    - status
+    - restart
+    - start
+    - stop
+  - curl (wget)
+  - nslookup
+  - grep
+    - -A
+    - -B
+    - -i
+  - vim (vim操作)
