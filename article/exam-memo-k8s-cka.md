@@ -1,7 +1,7 @@
 ---
 title: "【対策メモ】Certified Kubernetes Administrator (CKA)試験"
 topics: ["Kubernetes", "CKA", "資格"]
-published: false
+published: true
 ---
 
 # はじめに
