@@ -6,8 +6,7 @@ published: true
 
 # はじめに
 
-本記事は、Certified Kubernetes Administrator (CKA)試験の対策をしている上で覚えておくべきだと感じたことを
-メモとして残しておくものです。
+本記事は、Certified Kubernetes Administrator (CKA)試験の対策をしている上で覚えておくべきだと感じたことをメモとして残しておくものです。
 
 # Cluster Architecture
 
