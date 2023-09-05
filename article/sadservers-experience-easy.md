@@ -17,13 +17,13 @@ published: true
 
 - [本記事の概要](#本記事の概要)
 - [目次](#目次)
-- [所感](#所感)
+- [各章事毎の所感](#各章事毎の所感)
   - [1. "Saint John": what is writing to this log file?](#1-saint-john-what-is-writing-to-this-log-file)
   - [2. "Saskatoon": counting IPs.](#2-saskatoon-counting-ips)
   - [3. "Santiago": Find the secret combination](#3-santiago-find-the-secret-combination)
-- [感想](#感想)
+- [総括](#総括)
 
-# 所感
+# 各章事毎の所感
 
 ## 1. "Saint John": what is writing to this log file?
 
@@ -55,7 +55,7 @@ published: true
 
 ``uniq``はとにかくsortしてからじゃないと駄目ということをよく学べた。
 
-# 感想
+# 総括
 
 Easyなのに正答率1/3という苦い結果。
 しかし、学ぶことはとても多いので引続きMediumに挑戦する。
