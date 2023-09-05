@@ -27,18 +27,18 @@ published: true
 
 ## 1. "Saint John": what is writing to this log file?
 
-| Correct or Incorrect | Did you refer to next clue? | (how many) |
-| -------------------- | --------------------------- | ---------- |
-| Correct              | no                          | -          |
+| Correct or Incorrect | Did you refer to next clue? | (How many times) |
+| -------------------- | --------------------------- | ---------------- |
+| Correct              | no                          | -                |
 
 1問目ということもあり基礎知識で回答できた。
 プロセス情報を出すコマンドとして、``lsof``や``fuser``を頭に入れておけるとなお良い。
 
 ## 2. "Saskatoon": counting IPs.
 
-| Correct or Incorrect | Refered to next clue? | (how many) |
-| -------------------- | --------------------- | ---------- |
-| Incorrenct           | no                    | -          |
+| Correct or Incorrect | Did you refer to next clue? | (How many times) |
+| -------------------- | --------------------------- | ---------------- |
+| Incorrenct           | no                          | -                |
 
 ``uniq``の仕様がわかっていなかったため不正解。
 [uniqのman](https://linuxjm.osdn.jp/html/GNU_textutils/man1/uniq.1.html)より引用
@@ -49,9 +49,9 @@ published: true
 
 ## 3. "Santiago": Find the secret combination
 
-| Correct or Incorrect | Refered to next clue? | (how many) |
-| -------------------- | --------------------- | ---------- |
-| Incorrenct           | yes                   | 2          |
+| Correct or Incorrect | Did you refer to next clue? | (How many times) |
+| -------------------- | --------------------------- | ---------------- |
+| Incorrenct           | yes                         | 2                |
 
 ``uniq``はとにかくsortしてからじゃないと駄目ということをよく学べた。
 
