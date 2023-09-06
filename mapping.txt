@@ -22,3 +22,4 @@ article/exam-memo-k8s-cka.md, be6ad6e81f9e36414935
 article/report-interopTOKYO23.md, 77900323bc62a83f4049
 article/exam-experience-k8s-cka.md, 4ce0e61bc1eae750086f
 article/sadservers-experience-easy.md, 6b4822edefc4d73086a9
+article/exam-memo-k8s-ckad.md, 71d8b45654455cdc0e39
