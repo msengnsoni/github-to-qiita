@@ -8,4 +8,4 @@ published: false
 
 本記事は、Certified Kubernetes Application Developer (CKAD)試験の対策をしている上で覚えておくべきだと感じたことをメモとして残しておくものです。
 
-# 
+# 本記事の概要
