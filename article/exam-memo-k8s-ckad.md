@@ -1,7 +1,7 @@
 ---
 title: "【対策メモ】Certified Kubernetes Application Developer (CKAD)試験"
 topics: ["Kubernetes", "ckad", "資格"]
-published: false
+published: true
 ---
 
 # はじめに
