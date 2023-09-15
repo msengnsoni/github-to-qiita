@@ -27,6 +27,7 @@ CKA取得時の勉強メモは[こちら](https:qiita.com/msengnsoni/items/be6ad
 - CronJob
   - ``spec.jobTemplate``配下にJobで設定する``spec``配下を配置
   - CronJob内で``spec``が3つになるので注意
+  - Jobでも設定できる項目はCronJobでも設定可能
 - 両リソースともに``kubectl create``で作成可能
 
 # Stateful Sets
