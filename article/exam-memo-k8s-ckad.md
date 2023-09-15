@@ -45,11 +45,11 @@ CKA取得時の勉強メモは[こちら](https:qiita.com/msengnsoni/items/be6ad
 - Stateful Sets(sts)にHeadless Serviceを設定した場合
   - stsは各podに固定の序数を付けるため、他リソースからsts内の特定のpodに対して通信が可能
 
-| Headless Service名 | Headless Serviceの対象リソース | Podのhostname | 機能するサブドメイン名                                                                                                                 |
-| ------------------ | ------------------------------ | ------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| test-svc           | Pod                            | hoge-pod      | hoge-pod.test-svc.default.svc.cluster.local                                                                                            |
-| test-svc           | Devployment (replicas=2)       | hoge-deploy   | hoge-deploy.test-svc.default.svc.cluster.local<br>hoge-deploy.test-svc.default.svc.cluster.local<br>(2つのPodが同じサブドメインをもつ) |
-| test-svc           | StatefulSet (replicas=2)       | hoge-sts      | hoge-sts-0.test-svc.default.svc.cluster.local<br>hoge-sts-1.test-svc.default.svc.cluster.local                                         |
+| Headless Service名 | Headless Service<br>対象リソース | Podのhostname | 機能するサブドメイン名一覧                                                                                                             |
+| ------------------ | -------------------------------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| test-svc           | Pod                              | hoge-pod      | hoge-pod.test-svc.default.svc.cluster.local                                                                                            |
+| test-svc           | Devployment<br>(replicas=2)      | hoge-deploy   | hoge-deploy.test-svc.default.svc.cluster.local<br>hoge-deploy.test-svc.default.svc.cluster.local<br>(2つのPodが同じサブドメインをもつ) |
+| test-svc           | StatefulSet<br>(replicas=2)      | hoge-sts      | hoge-sts-0.test-svc.default.svc.cluster.local<br>hoge-sts-1.test-svc.default.svc.cluster.local                                         |
 
 # Admission Controllers
 
