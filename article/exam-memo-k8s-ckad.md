@@ -41,7 +41,7 @@ CKA取得時の勉強メモは[こちら](https:qiita.com/msengnsoni/items/be6ad
 # Headless Service
 
 - 特手のPodに対してサブドメインとして機能するservice
-  - サブドメインの命名規則は``podname.headless-servicename.namespace.svc.cluseter-domain.example`
+  - サブドメインの命名規則は``podname.headless-servicename.namespace.svc.cluseter-domain.example``
 - Stateful Sets(sts)にHeadless Serviceを設定した場合
   - stsは各podに固定の序数を付けるため、他リソースからsts内の特定のpodに対して通信が可能
 
