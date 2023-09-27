@@ -8,7 +8,7 @@ published: true
 
 - [目次](#目次)
 - [本記事の概要](#本記事の概要)
-- [各章事毎の所感](#各章事毎の所感)
+- [各章毎の所感](#各章毎の所感)
   - [4. "Saint John": what is writing to this log file?](#4-saint-john-what-is-writing-to-this-log-file)
   - [5. "Saskatoon": counting IPs.](#5-saskatoon-counting-ips)
   - [6. "Cape Town": Borked Nginx](#6-cape-town-borked-nginx)
@@ -29,7 +29,7 @@ published: true
 本記事では回答の直接的な解説はしていません。ご了承ください。
 :::
 
-# 各章事毎の所感
+# 各章毎の所感
 
 ## 4. "Saint John": what is writing to this log file?
 
