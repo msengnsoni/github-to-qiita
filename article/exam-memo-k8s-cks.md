@@ -18,4 +18,22 @@ published: false
 
 - CIS Benchmarksに基づくOSSのチェックツール
 
+# Kubelet Security
+
+- kubeletと通信するポート
+  - **10250**
+    - フルアクセス
+    - kubelet.serviceの設定値``--anonymous-auth``はデフォルトで``true``のため``false``推奨
+      - ``false``の場合は``curl``送信時にオプションでclient ca fileを渡せば認証される
+  - **10255**
+    - 読み取り専用
+    - 無効にする場合は``readOnlyPort``を``0``に設定
+
+# kubectl proxy と kubectl port-forward
+
+- kubectl proxy
+  - API serverへの通信をプロキシ
+- kubectl port-forward
+  - 展開されたpodと通信するためのポートフォワーディング
+
 # 
