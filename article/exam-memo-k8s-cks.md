@@ -35,5 +35,3 @@ published: false
   - API serverへの通信をプロキシ
 - kubectl port-forward
   - 展開されたpodと通信するためのポートフォワーディング
-
-# 
