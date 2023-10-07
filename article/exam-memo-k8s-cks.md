@@ -8,15 +8,14 @@ published: false
 
 本記事は、Certified Kubernetes Security Specialist (CKS)試験の対策をしている上で覚えておくべきだと感じたことをメモとして残しておくものです。
 
-# CIS Benchmark
+# Benchmard
 
-- CIS-CAT
-  - CISが提供するCIS Benchmarksへの準拠をチェックするツール
-  - kubernetes用のCIS-CATはPro版(有償)にしかないため注意
-
-# kube-bench
-
-- CIS Benchmarksに基づくOSSのチェックツール
+- CIS Benchmark
+  - CIS-CAT
+    - CISが提供するCIS Benchmarksへの準拠をチェックするツール
+    - kubernetes用のCIS-CATはPro版(有償)にしかないため注意
+- kube-bench
+  - CIS Benchmarksに基づくOSSのチェックツール
 
 # Kubelet Security
 
@@ -35,3 +34,16 @@ published: false
   - API serverへの通信をプロキシ
 - kubectl port-forward
   - 展開されたpodと通信するためのポートフォワーディング
+
+# Linux Hardening
+
+- 特定のユーザをログイン不可(sshやsu不可)にしたい
+  - ``usermod -i /sbin/nologin <username>``
+- sshログイン時の挙動制御
+  - ``/etc/sshd/sshd_config``を編集
+- sudo実行可能ユーザの制御
+  - ``/etc/sudoers``を編集
+- ポート番号を私用しているプログラムが知りたい
+  - ``netstat -antp``にgrepで確認
+    - ``-p``はPID/Programを表示
+- 
