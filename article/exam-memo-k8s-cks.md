@@ -46,4 +46,15 @@ published: false
 - ポート番号を私用しているプログラムが知りたい
   - ``netstat -antp``にgrepで確認
     - ``-p``はPID/Programを表示
+
+# Seccomp
+
+- デフォルトのseccompプロファイルの場所
+  - ``/var/lib/kubelet/seccomp``
+- 特定のseccompプロファイルを指定してPodを作成する
+  - ``spec.securityContext.seccompProfile.lolalhostProfile``にパスを設定
+  - 記載するパスはkubeletの起動引数で指定されたseccompプロファイルの場所以下からで良い(デフォルトでは``/var/lib/kubelet/seccomp/``)
+
+# AppArmor
+
 - 
