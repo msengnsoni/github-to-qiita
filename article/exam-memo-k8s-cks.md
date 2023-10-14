@@ -57,4 +57,13 @@ published: false
 
 # AppArmor
 
-- 
+- 関連コマンド
+  - ``aa-status``
+  - ``apparmor-parser``
+
+# OPA in kubernetes
+
+- ValidatingWebhookConfigrationリソース内でOPAサーバの情報を記載
+- ``.rego``ファイルからconfigmapを作成する場合は``--from-file=``で指定
+
+# 
