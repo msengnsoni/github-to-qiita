@@ -66,4 +66,23 @@ published: false
 - ValidatingWebhookConfigrationリソース内でOPAサーバの情報を記載
 - ``.rego``ファイルからconfigmapを作成する場合は``--from-file=``で指定
 
-# 
+# Container runtime
+
+- runc
+  - kubernetesデフォルトのcontainer runtime
+- gVisor
+  - ホストのオペレーティングシステムとコンテナ化されたアプリケーションの間に中間層として機能
+  - docker実行時にオプションで指定可能
+    - ``--runtime runsc``
+- kata container
+  - 仮想マシンを作成し、その中でコンテナを実行
+  - docker実行時にオプションで指定可能
+    - ``--runtime kata``
+
+# RuntimeClass
+
+- ``RuntimeClass``リソースを作成後、Podの``spec.runtimeClassName``にリソース名を記載
+
+# Pod間のmTLS通信
+
+- 一般的にIstioが使用
