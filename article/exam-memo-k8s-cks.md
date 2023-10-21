@@ -86,3 +86,33 @@ published: false
 # Pod間のmTLS通信
 
 - 一般的にIstioが使用
+
+# Admission Controller
+
+- admission controllerの有効化
+  - kube-apiserverの起動オプションに``--enable-admission-plugins``を追記して指定
+- admission controller用のconfigファイルを明示的に指定
+  - kube-apiserverの起動オプションに``--admission-control-config-file``を追記して指定
+
+# Kubesec
+
+- podのスキャニングを提供
+- ``kubesec``コマンドを使用、詳細な使い方は``-h``で確認
+
+# Trivy
+
+- コンテナイメージの脆弱性スキャンを提供
+- ``trivy``コマンドを使用、詳細な使い方は``-h``で確認
+
+# Falco
+
+- Kubernetesクラスタ内で実行されるアプリケーションやサービスの動作を監視し、異常なアクティビティやセキュリティ違反を検出する
+- デフォルトの設定ファイル
+  - ``/etc/falco/falco.yaml``
+- ルール設定ファイル
+  - ``/etc/falco/falco_rule.yaml``
+  - ``/etc/falco/falco_rule.local.yaml``
+    - 記載することでデフォルトのルールをオーバーライド可能
+- falcoのホットリロード
+  - ``kill -1 $(cat /var/run/falco.pid)``
+-
