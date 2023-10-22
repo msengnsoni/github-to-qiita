@@ -60,6 +60,12 @@ published: false
 - 関連コマンド
   - ``aa-status``
   - ``apparmor-parser``
+- podに設定したい場合
+  - annotaionsに``container.apparmor.security.beta.kubernetes.io/<container_name>: <profile_ref>``を追加
+    - ``<profile_ref>``は以下の3種類
+      - runtime/default: ランタイムのデフォルトのプロファイルを適用する
+      - localhost/<profile_name>: <profile_name>という名前でホストにロードされたプロファイルを適用する
+      - unconfied: いかなるプロファイルもロードされないことを示す
 
 # OPA in kubernetes
 
@@ -115,4 +121,20 @@ published: false
     - 記載することでデフォルトのルールをオーバーライド可能
 - falcoのホットリロード
   - ``kill -1 $(cat /var/run/falco.pid)``
--
+
+# Audit
+
+- kube-apiserverにフラグを追加することで有効化
+  - ``--audit-policy-file``
+    - policyリソース定義ファイルを指定
+  - ``--audit-log-path``
+    - auditログを書き込むファイルを指定
+  - ``--audit-log-maxage``
+    - 監査ログファイルを保持する最大日数を指定
+  - ``--audit-log-maxsize``
+    - ログファイルがローテーションされるまでの最大サイズをメガバイト単位で指定
+  - ``--audit-log-maxbackup``
+    - 保持する監査ログファイルの最大数を指定
+- policyリソースの書き方に関する注意点
+  - 基本的な書き方は公式ドキュメント参照
+  - groupの記載が必要なリソースを対象にする場合は``kubectl api-resources``で確認すること
