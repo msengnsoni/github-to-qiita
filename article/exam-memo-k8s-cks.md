@@ -49,6 +49,7 @@ published: false
 
 # Seccomp
 
+- プロセスのシステムコールを制限し、アプリケーションやプロセスのセキュリティを向上させる
 - デフォルトのseccompプロファイルの場所
   - ``/var/lib/kubelet/seccomp``
 - 特定のseccompプロファイルを指定してPodを作成する
@@ -57,9 +58,12 @@ published: false
 
 # AppArmor
 
+- 特定のプロセスが実行できる操作やアクセスできるファイルなどのシステムリソースに対するアプリケーションのアクセス制御を実施する
 - 関連コマンド
   - ``aa-status``
   - ``apparmor-parser``
+    - ``-a``
+    - ``-p``
 - podに設定したい場合
   - annotaionsに``container.apparmor.security.beta.kubernetes.io/<container_name>: <profile_ref>``を追加
     - ``<profile_ref>``は以下の3種類
@@ -121,6 +125,8 @@ published: false
     - 記載することでデフォルトのルールをオーバーライド可能
 - falcoのホットリロード
   - ``kill -1 $(cat /var/run/falco.pid)``
+- outputのフォーマットを変えたい
+  - outputフィールドを[公式ドキュメント](https://falco.org/docs/reference/rules/supported-fields/)を参考に変更する
 
 # Audit
 
@@ -138,3 +144,16 @@ published: false
 - policyリソースの書き方に関する注意点
   - 基本的な書き方は公式ドキュメント参照
   - groupの記載が必要なリソースを対象にする場合は``kubectl api-resources``で確認すること
+
+# Secret
+
+- ServiceAccountTokenの自動マウントを止めたい(下記2つのうちいずれかの方法で実施)
+  - podのマニフェストファイル内で``spec.automountServiceAccountToken``を``false``に設定
+  - serviceaccountのマニフェストファイル内で``automountServiceAccountToken``を``false``に設定
+
+# NetworkPolicy
+
+- リソースにlabelが複数設定されている場合はその分も設定すること
+  - kubernetes側の処理によって自動的に付与されるlabelは設定しなくても良い
+- from配下の条件はAND条件になる
+- from間の条件はOR条件になる
