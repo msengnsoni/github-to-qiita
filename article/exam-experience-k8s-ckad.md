@@ -44,7 +44,7 @@ CKA受験時と同様にCKAD-JP(LPI-JAPAN経由)で申し込みました。
 # 使用した教材
 
 - Udemy
-  - [Certified Kubernetes Administrator (CKA) with Practice Tests](https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/)
+  - [Kubernetes Certified Application Developer (CKAD) with Tests](https://www.udemy.com/course/certified-kubernetes-application-developer/)
 - [CKAD Exercises](https://github.com/dgkanatsios/CKAD-exercises)
 - [KillerCoda](https://killercoda.com/killer-shell-cka) (Playgroundのみ利用)
 
