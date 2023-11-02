@@ -62,8 +62,8 @@ published: false
 - 関連コマンド
   - ``aa-status``
   - ``apparmor-parser``
-    - ``-a``
-    - ``-p``
+    - ``-a (--add)``
+    - ``-p (--preprocess)``
 - podに設定したい場合
   - annotaionsに``container.apparmor.security.beta.kubernetes.io/<container_name>: <profile_ref>``を追加
     - ``<profile_ref>``は以下の3種類
