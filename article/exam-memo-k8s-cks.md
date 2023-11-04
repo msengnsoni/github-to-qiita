@@ -16,6 +16,11 @@ published: false
     - kubernetes用のCIS-CATはPro版(有償)にしかないため注意
 - kube-bench
   - CIS Benchmarksに基づくOSSのチェックツール
+  - ``kube-bench``コマンドで実行
+    - ``kube-bench run --targets=master``
+      - maseterノードに対して実行
+    - ``kube-bench run --targets=node``
+      - workerノードに対して実行
 
 # Kubelet Security
 
@@ -71,10 +76,14 @@ published: false
       - localhost/<profile_name>: <profile_name>という名前でホストにロードされたプロファイルを適用する
       - unconfied: いかなるプロファイルもロードされないことを示す
 
-# OPA in kubernetes
+# OPA Gatekeeper
 
+- Kubernetesリソース（ポッド、サービス、ネームスペースなど）に適用されるポリシーを定義し、それらのポリシーを実行してリソースの作成や変更を制御する
+- Validating Admission Controllerとして動作し、Kubernetes APIリクエストが送信される前にポリシーの適用を確認する
 - ValidatingWebhookConfigrationリソース内でOPAサーバの情報を記載
 - ``.rego``ファイルからconfigmapを作成する場合は``--from-file=``で指定
+- ``ConstraintTemplate``リソース内にconstraintを強制するRegoロジックとコンストレイントのスキーマの両方が記述されているためまずここを確認
+  - ``kubectl get crd``で各リソース名を確認
 
 # Container runtime
 
@@ -127,6 +136,7 @@ published: false
   - ``kill -1 $(cat /var/run/falco.pid)``
 - outputのフォーマットを変えたい
   - outputフィールドを[公式ドキュメント](https://falco.org/docs/reference/rules/supported-fields/)を参考に変更する
+- 検出された脅威は``journalctl -u falco``で確認する
 
 # Audit
 
@@ -157,3 +167,49 @@ published: false
   - kubernetes側の処理によって自動的に付与されるlabelは設定しなくても良い
 - from配下の条件はAND条件になる
 - from間の条件はOR条件になる
+
+# apiserver
+
+- オプション
+  - ``--kubernetes-service-node-port``
+    - apiserverのセットアップ時に作成されるserviceのタイプがnodePortになり、指定したport番号を使用する
+    - このオプションが指定されていない場合、作成されるserviceのタイプは**clusterIP**になる
+    - この項目を変更した際は、既存のservcieを削除しないと新たなタイプのserviceが作成されないため注意
+
+# Pod Security Standards
+
+- namespace単位でpodにセキュリティ制御をかける
+- namespaceリソース内の``metadata.annotations``に設定する
+- 基本は3つのprofileから選択
+  - Privileged
+    - 特権を許可(ほぼ制限なし)
+  - Baseline
+    - 既知の特権昇格を防止する最小限の制限ポリシー
+  - Restricted
+    - 厳しく制限されたポリシーで、現在のpod hardeningのベストプラクティスに従う
+
+# ETCD
+
+- ETCDはデータを``/registry/{type}/{namespace}/{name}``配下に書き込む
+- etcdctlで参照する際は``etcdctl (cert関連オプション) get``を使用する
+
+# Other
+
+- curlを用いてkubernetesリソースを取得したい
+  - ひな形を覚えておく(↓認証にtokenを使う場合)
+  - ``curl htts://kubernetes.default/api/v1/namespaces/default/pods -H "Authorization: Bearer $(token)" -k``
+
+# Command
+
+- kubectl
+  - config
+    - get-context -o name
+      - context nameを表示する
+    - view --raw
+      - 機密データを表示する
+- sha512sum
+  - SHA-512ハッシュ値を計算して表示する
+  - kubernetesコンポーネントファイルのバイナリを比較する際に使用
+- strace
+  - -p
+    - 指定したPIDのプログラムがどのシステムコールを実行し、それに伴う引数や結果を表示する
