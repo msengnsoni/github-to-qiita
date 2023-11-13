@@ -49,8 +49,11 @@ published: false
 - sudo実行可能ユーザの制御
   - ``/etc/sudoers``を編集
 - ポート番号を私用しているプログラムが知りたい
-  - ``netstat -antp``にgrepで確認
+  - ``netstat -plnt``にgrepで確認
     - ``-p``はPID/Programを表示
+    - ``-l``はリスニング状態のソケットのみ表示
+    - ``-n``はホスト名やサービス名を解決せずに、IPアドレスやポート番号を表示
+    - ``-t``はTCPプロトコルのみ表示
 
 # Seccomp
 
@@ -167,6 +170,30 @@ published: false
   - kubernetes側の処理によって自動的に付与されるlabelは設定しなくても良い
 - from配下の条件はAND条件になる
 - from間の条件はOR条件になる
+- DNSのみ通信許可したい場合のサンプルyaml
+  - portsにTCP/UDPの53のみ許可の設定を記載する
+
+<details><summary>サンプルyaml</summary>
+
+```rb
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny
+  namespace: default
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  - Ingress
+  egress:
+  - ports:
+    - port: 53
+      protocol: TCP
+    - port: 53
+      protocol: UDP
+```
+</details>
 
 # apiserver
 
@@ -175,6 +202,27 @@ published: false
     - apiserverのセットアップ時に作成されるserviceのタイプがnodePortになり、指定したport番号を使用する
     - このオプションが指定されていない場合、作成されるserviceのタイプは**clusterIP**になる
     - この項目を変更した際は、既存のservcieを削除しないと新たなタイプのserviceが作成されないため注意
+- kube-apiserverが立ち上がってこない時にログを見て調査したい
+  - ``/var/log/pods`` or ``/var/log/containers``
+    - kube-apiserverの起動に失敗している場合は関連ログ(読み込めないフラグ等)が置かれている
+  - ``journalctl -u kubelet``
+  - ``crictl logs <kube-apiserverのCONTAINER_ID>``
+  - ``journalctl | grep kube-apiserver``
+  - ``cat /var/log/syslog | grep kube-apiserver``
+- kubeletのconfigファイル(``/etc/kubernetes/kubelet.conf``等)をKUBECONFIG環境変数に設定することでapiserverと通信可能
+  - NodeRestrictionを有効化することによって制限できる
+- TLS接続における最小バージョンと暗号スイートの設定
+  - ``--tls-min-version=VersionTLS12``
+  - ``--tls-cipher-suites=TLS_AES_128_GCM_SHA256``
+    - 値は問題で指定されるものでよい
+
+# ETCD
+
+- ETCDはデータを``/registry/{type}/{namespace}/{name}``配下に書き込む
+- etcdctlで参照する際は``etcdctl (cert関連オプション) get``を使用する
+- ``--cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256``
+  - 値は問題で指定されるものでよい
+- api-serverの設定変更し起動してくることを確認 → ETCDの設定変更という順番でやらないとETCDが上がってこなかった(たまたま？)
 
 # Pod Security Standards
 
@@ -188,10 +236,22 @@ published: false
   - Restricted
     - 厳しく制限されたポリシーで、現在のpod hardeningのベストプラクティスに従う
 
-# ETCD
+# Immutability for contaniners
 
-- ETCDはデータを``/registry/{type}/{namespace}/{name}``配下に書き込む
-- etcdctlで参照する際は``etcdctl (cert関連オプション) get``を使用する
+- bash/shellの削除
+  - startupProbeで``remove /bin/bash``
+- filessytemをreadonlyに
+  - securitycontextで設定
+- root userでコンテナを実行しない(run as user and non root)
+  - securitycontextで設定
+
+# Secure and Herden Images
+
+- imageに対してのベストプラクティス
+  - パッケージバージョンを明確にすること(latestは使わない)
+- root userで実行しない
+- filessytemをreadonlyに
+- shell accessを削除
 
 # Other
 
@@ -213,3 +273,8 @@ published: false
 - strace
   - -p
     - 指定したPIDのプログラムがどのシステムコールを実行し、それに伴う引数や結果を表示する
+  - -c
+    - 統計情報として表示
+- systemctl
+  - list-units --type service
+    - systemctlが管理しているunitの一覧を表示
