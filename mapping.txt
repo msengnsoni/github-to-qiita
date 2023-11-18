@@ -26,3 +26,4 @@ article/exam-memo-k8s-ckad.md, 71d8b45654455cdc0e39
 article/exam-experience-k8s-ckad.md, 6f9bd7790ac51cffd943
 article/sadservers-experience-medium.md, 91292b27772031d436ab
 article/exam-memo-k8s-cks.md, 60c6fd3d1b2b99a35bc8
+article/exam-experience-k8s-cks.md, 9d52db7c38dabb2b7d4e
