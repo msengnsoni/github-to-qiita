@@ -220,9 +220,10 @@ spec:
 
 - ETCDはデータを``/registry/{type}/{namespace}/{name}``配下に書き込む
 - etcdctlで参照する際は``etcdctl (cert関連オプション) get``を使用する
-- ``--cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256``
+- 暗号スイートの指定
+  - ``--cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256``
   - 値は問題で指定されるものでよい
-- api-serverの設定変更し起動してくることを確認 → ETCDの設定変更という順番でやらないとETCDが上がってこなかった(たまたま？)
+  - api-serverの設定変更し起動してくることを確認 → ETCDの設定変更という順番でやらないとETCDが上がってこなかった(たまたま？)
 
 # Pod Security Standards
 
