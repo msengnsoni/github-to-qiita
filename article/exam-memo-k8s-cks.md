@@ -1,7 +1,7 @@
 ---
 title: "【対策メモ】Certified Kubernetes Security Specialist (CKS)試験"
 topics: ["Kubernetes", "cks", "資格"]
-published: false
+published: true
 ---
 
 # はじめに
