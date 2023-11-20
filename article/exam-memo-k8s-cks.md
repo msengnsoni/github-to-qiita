@@ -61,7 +61,7 @@ published: true
 - デフォルトのseccompプロファイルの場所
   - ``/var/lib/kubelet/seccomp``
 - 特定のseccompプロファイルを指定してPodを作成する
-  - ``spec.securityContext.seccompProfile.lolalhostProfile``にパスを設定
+  - ``spec.securityContext.seccompProfile.localhostProfile``にパスを設定
   - 記載するパスはkubeletの起動引数で指定されたseccompプロファイルの場所以下からで良い(デフォルトでは``/var/lib/kubelet/seccomp/``)
 
 # AppArmor
@@ -75,9 +75,9 @@ published: true
 - podに設定したい場合
   - annotaionsに``container.apparmor.security.beta.kubernetes.io/<container_name>: <profile_ref>``を追加
     - ``<profile_ref>``は以下の3種類
-      - runtime/default: ランタイムのデフォルトのプロファイルを適用する
-      - localhost/<profile_name>: <profile_name>という名前でホストにロードされたプロファイルを適用する
-      - unconfied: いかなるプロファイルもロードされないことを示す
+      - ``runtime/default``: ランタイムのデフォルトのプロファイルを適用する
+      - ``localhost/<profile_name>``: (profile_name)という名前でホストにロードされたプロファイルを適用する
+      - ``unconfied``: いかなるプロファイルもロードされないことを示す
 
 # OPA Gatekeeper
 
