@@ -123,7 +123,7 @@ published: true
   - ``systemctl status etcd``で実行サービスのpath確認
 - リストア時に``--data-dir``でdataディレクトリを変更した場合
   - etcdがpodの場合(動作nodeに入り実行)
-    - ``/etc/kubernetes/manifest/etcd.yaml``内のvolume及びvolumeMountフィールドを変更
+    - ``/etc/kubernetes/manifest/etcd.yaml``内のvolumeフィールドを変更
   - etcdが外部サーバの場合(etcdサーバに入り実行)
     - etcdのサービスファイルを編集しオプションの値を変更
     - ``--data-dir``で指定したディレクトリの権限を``chown -R``で変更、基本的に以前指定していたディレクトリと合わせる
