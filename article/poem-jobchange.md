@@ -1,7 +1,7 @@
 ---
 title: "20代後半インフラエンジニアの転職記録"
 topics: ["ポエム", "インフラエンジニア", "キャリア", "転職", "面接"]
-published: treu
+published: true
 ---
 
 # 目次
